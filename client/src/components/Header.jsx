@@ -34,11 +34,11 @@ function Header() {
           required
           type="text"
           placeholder="Search for blogs"
-          class="w-full h-full outline-none text-sm text-gray-500"
+          className="w-full h-full outline-none text-sm text-gray-500"
         />
         <button
           type="submit"
-          class="bg-primary w-32 h-9 rounded-full text-sm text-white mr-[5px] cursor-pointer"
+          className="bg-primary w-32 h-9 rounded-full text-sm text-white mr-[5px] cursor-pointer"
         >
           Search
         </button>
