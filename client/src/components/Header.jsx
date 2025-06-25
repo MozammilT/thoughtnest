@@ -1,3 +1,4 @@
+import BlogCount from "./BlogCount";
 import HeaderPara from "./HeaderPara";
 import Heading from "./Heading";
 
@@ -11,6 +12,7 @@ function Header() {
         </div>
         <Heading />
         <HeaderPara />
+        <BlogCount />
       </div>
 
       <form className="flex mx-auto items-center border pl-4 gap-2 bg-white border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md w-full">
