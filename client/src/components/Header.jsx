@@ -1,18 +1,18 @@
+import Heading from "./Heading";
 
 function Header() {
-  const fullHeading = "Your own blogging platform.";
-
   return (
     <div className="mx-8 sm:mx-16 xl:mx-24 relative">
-      <div className="text-center mt-20 mb-8">
+      <div className="text-center mt-20 mb-8 items-center justify-center">
         <div className="inline-flex items-center justify-center gap-4 px-6 py-1.5 mb-4 bg-primary/10 rounded-full text-primary border border-primary/50 text-sm">
           <p>New: AI Feature Integrated</p>
           <img src="/star_icon.svg" className="w-2.5" />
         </div>
-        <h1 className="text-7xl sm:text-6xl font-semibold text-nowrap text-gray-700">
+        {/* <h1 className="text-7xl sm:text-6xl font-semibold text-nowrap text-gray-700">
           Your own <span className="text-yellow-400">blogging</span> <br />{" "}
           platform.
-        </h1>
+        </h1> */}
+        <Heading />
         <p className="text-gray-500 my-6 sm:my-8 max-w-2xl m-auto max-sm:text-xs">
           This is your space to think out loud, to share what matters, and to
           write without filters. Whether it's one word or a thousand, your story
