@@ -1,3 +1,4 @@
+import HeaderPara from "./HeaderPara";
 import Heading from "./Heading";
 
 function Header() {
@@ -8,16 +9,8 @@ function Header() {
           <p>New: AI Feature Integrated</p>
           <img src="/star_icon.svg" className="w-2.5" />
         </div>
-        {/* <h1 className="text-7xl sm:text-6xl font-semibold text-nowrap text-gray-700">
-          Your own <span className="text-yellow-400">blogging</span> <br />{" "}
-          platform.
-        </h1> */}
         <Heading />
-        <p className="text-gray-500 my-6 sm:my-8 max-w-2xl m-auto max-sm:text-xs">
-          This is your space to think out loud, to share what matters, and to
-          write without filters. Whether it's one word or a thousand, your story
-          starts right here.
-        </p>
+        <HeaderPara />
       </div>
 
       <form className="flex mx-auto items-center border pl-4 gap-2 bg-white border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md w-full">
