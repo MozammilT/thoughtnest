@@ -7,9 +7,9 @@ function Navbar() {
     <nav className="flex justify-between items-center py-5 mx-8 sm:mx-20 xl:mx-32">
       <img
         onClick={() => navigate("/")}
-        className="w-50 h-15 cursor-pointer"
-        src="/ThoughtNest1.png"
-        alt="dummyLogoColored"
+        className="w-45 h-15 cursor-pointer"
+        src="/main.png"
+        alt="Thoughtnest-logo"
       />
       <button
         onClick={() => navigate("/admin")}
