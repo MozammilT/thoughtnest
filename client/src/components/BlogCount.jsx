@@ -13,7 +13,7 @@ function BlogCount() {
   }, []);
 
   return (
-    <p className="text-sm text-gray-600 mb-2">
+    <p className="text-base text-gray-600 mb-2">
       Published
       <motion.strong className="w-[25px] inline-block text-center">
         {rounded}

@@ -20,7 +20,7 @@ function HeaderPara() {
   }, []);
 
   return (
-    <p ref={pRef} className="text-gray-500 my-6 sm:my-8 max-w-2xl m-auto max-sm:text-base">
+    <p ref={pRef} className="text-gray-500 my-6 sm:my-8 max-w-2xl m-auto max-sm:text-base text-lg">
       This is your space to think out loud, to share what matters, and to write
       without filters. Whether it's one word or a thousand, your story starts
       right here.
