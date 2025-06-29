@@ -21,21 +21,21 @@ function DashboardMenu() {
   return (
     <div className="flex-1 p-4 md:p-10 bg-yellow-50/30">
       <div className="flex flex-wrap gap-4">
-        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-45">
+        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-50 pl-3 py-3">
           <img src="/dashboard_icon_1.svg" alt="blog-icon" />
           <div className="pr-5 pl-2">
             <p className="text-gray-800 text-xl">{dashboardData.blogs}</p>
             <p className="text-gray-600 text-base font-light">Blogs</p>
           </div>
         </div>
-        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-45">
+        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-45 pl-3 py-3">
           <img src="/dashboard_icon_2.svg" alt="comments-icon" />
           <div className="pr-5 pl-2">
             <p className="text-gray-800 text-xl">{dashboardData.comments}</p>
             <p className="text-gray-600 text-base font-light">Comments</p>
           </div>
         </div>
-        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-45">
+        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-45 pl-3 py-3">
           <img src="/dashboard_icon_3.svg" alt="drafts-icon" />
           <div className="pr-5 pl-2">
             <p className="text-gray-800 text-xl">{dashboardData.drafts}</p>
