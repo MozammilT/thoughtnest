@@ -44,7 +44,7 @@ function BloglistMenu() {
 
           <tbody>
             {blog.map((blog, idx) => (
-              <TableItem blog={blog} index={idx + 1} fetchBlogs={fetchBlogs} />
+              <TableItem blog={blog} key={idx + 1} fetchBlogs={fetchBlogs} />
             ))}
           </tbody>
         </table>

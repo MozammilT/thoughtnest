@@ -76,7 +76,7 @@ function DashboardMenu() {
               {dashboardData.recentBlogs.map((blog, idx) => (
                 <TableItem
                   blog={blog}
-                  index={idx + 1}
+                  key={idx + 1}
                   fetchBlogs={fetchDashboard}
                 />
               ))}
