@@ -77,6 +77,7 @@ function DashboardMenu() {
                 <TableItem
                   blog={blog}
                   key={idx + 1}
+                  index={idx + 1}
                   fetchBlogs={fetchDashboard}
                 />
               ))}
