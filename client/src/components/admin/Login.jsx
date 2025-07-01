@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 
 function Login({ errorMessage }) {
-  const [username, setUsername] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
   return (
@@ -27,17 +27,17 @@ function Login({ errorMessage }) {
               htmlFor="username"
               className="block mb-2 font-medium text-gray-700"
             >
-              Username
+              Username or Email
             </label>
             <input
               name="username"
               type="text"
               id="username"
-              placeholder="Enter your username"
+              placeholder="Enter your username or email"
               autoComplete="username"
               required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
