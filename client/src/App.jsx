@@ -8,6 +8,7 @@ import BloglistMenu from "./pages/Admin/BloglistMenu";
 import CommentsMenu from "./pages/Admin/CommentsMenu";
 import Login from "./components/admin/Login";
 import SignUp from "./components/admin/SignUp";
+import "quill/dist/quill.snow.css";
 
 function App() {
   return (
