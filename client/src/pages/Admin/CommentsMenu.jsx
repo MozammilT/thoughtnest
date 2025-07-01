@@ -72,7 +72,7 @@ function CommentsMenu() {
                   <td cassName="px-6 py-4 max-sm:hidden">
                     {moment(comment.blog.createdAt).format("MMMM Do, YYYY")}
                   </td>
-                  <td cassNaeme="px-20 py-4">
+                  <td className="px-20 py-4">
                     <div className="inline-flex items-center gap-4 ml-4">
                       {!comment.isApproved ? (
                         <img
