@@ -7,6 +7,7 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const registerRequestHandler = async (e) => {
@@ -23,7 +24,7 @@ function SignUp() {
       }
     } catch (err) {
       console.error("Registration failed:", err);
-      alert(err.response?.data?.message || "Registration failed.");
+      setError(err.response?.data?.message || "Registration failed.");
     }
   };
 
@@ -55,7 +56,7 @@ function SignUp() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
-              className="w-full p-3 border border-gray-300 rounded-lg text-base"
+              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
             />
           </div>
 
@@ -74,7 +75,7 @@ function SignUp() {
               value={email}
               placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg text-base"
+              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
             />
           </div>
 
@@ -94,8 +95,9 @@ function SignUp() {
               value={password}
               placeholder="**********"
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg text-base"
+              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
             />
+            {error && <p className="text-red-500 text-sm mt-2">{`${error}`}</p>}
           </div>
 
           <div className="flex justify-between items-center text-sm">

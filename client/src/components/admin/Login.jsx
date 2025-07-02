@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
-import axios from "axios";  
+import axios from "axios";
 
-function Login({ errorMessage }) {
+function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const loginRequestHandler = async (e) => {
@@ -22,7 +23,7 @@ function Login({ errorMessage }) {
       }
     } catch (err) {
       console.error("Login failed:", err);
-      alert(err.response?.data?.message || "Login failed.");
+      setError(err.response?.data?.message || "Login failed.");
     }
   };
 
@@ -58,7 +59,7 @@ function Login({ errorMessage }) {
               required
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
             />
           </div>
 
@@ -75,14 +76,12 @@ function Login({ errorMessage }) {
               id="password"
               placeholder="**********"
               required
-              autoComplete
+              autoComplete="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
             />
-            {errorMessage && (
-              <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
-            )}
+            {error && <p className="text-red-500 text-sm mt-2">{`${error}`}</p>}
           </div>
 
           <div className="flex justify-between items-center text-sm">
@@ -96,7 +95,7 @@ function Login({ errorMessage }) {
 
           <button
             type="submit"
-            className="w-full bg-primary/90 text-white p-3 rounded-lg text-lg hover:bg-primary transition"
+            className="w-full bg-primary/90 text-white p-3 rounded-lg text-lg hover:bg-primary transition cursor-pointer"
           >
             Log in
           </button>
