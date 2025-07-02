@@ -1,10 +1,30 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
+import axios from "axios";  
 
 function Login({ errorMessage }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const loginRequestHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/api/admin/login",
+        { identifier, password }
+      );
+
+      if (data.success) {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+      alert(err.response?.data?.message || "Login failed.");
+    }
+  };
 
   return (
     <div className="flex h-screen flex-col md:flex-row bg-gray-100">
@@ -18,8 +38,8 @@ function Login({ errorMessage }) {
         </p>
 
         <form
-          action="/login"
           method="POST"
+          onSubmit={loginRequestHandler}
           className="w-full max-w-md space-y-4"
         >
           <div>

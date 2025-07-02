@@ -1,9 +1,32 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SignUp() {
-  const naviagte = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const registerRequestHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/api/admin/register",
+        { username, email, password }
+      );
+
+      if (data.success) {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Registration failed:", err);
+      alert(err.response?.data?.message || "Registration failed.");
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       <div className="flex flex-1 flex-col justify-center items-center p-10 bg-gray-100">
@@ -13,7 +36,7 @@ function SignUp() {
         <p className="text-gray-600 mb-8 text-lg">Start your Journey with us</p>
 
         <form
-          action="/register"
+          onSubmit={registerRequestHandler}
           method="post"
           className="w-full max-w-sm space-y-5"
         >
@@ -25,11 +48,13 @@ function SignUp() {
               Username
             </label>
             <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Enter your username"
               required
+              type="text"
+              id="username"
+              name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
               className="w-full p-3 border border-gray-300 rounded-lg text-base"
             />
           </div>
@@ -42,11 +67,13 @@ function SignUp() {
               Email
             </label>
             <input
+              required
               type="email"
               name="email"
               id="email"
+              value={email}
               placeholder="Enter your email"
-              required
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg text-base"
             />
           </div>
@@ -59,12 +86,14 @@ function SignUp() {
               Password
             </label>
             <input
+              required
               type="password"
               name="password"
               id="password"
               autoComplete="true"
+              value={password}
               placeholder="**********"
-              required
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg text-base"
             />
           </div>
