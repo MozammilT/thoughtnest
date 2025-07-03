@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../../components/ui/sidebar";
 import {
   IconArrowLeft,
@@ -12,6 +12,7 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Routes, Route, Outlet } from "react-router-dom";
 import AdminNavbar from "@/components/admin/AdminNavbar";
+import { useAppContext } from "../../context/AppContext.jsx";
 
 export function SidebarDemo() {
   const links = [
@@ -39,6 +40,13 @@ export function SidebarDemo() {
     },
   ];
   const [open, setOpen] = useState(false);
+  const { admin, navigate } = useAppContext();
+
+  useEffect(() => {
+    if (!admin) {
+      navigate("/");
+    }
+  }, [admin]);
   return (
     <>
       <AdminNavbar />
