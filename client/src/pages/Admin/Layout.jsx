@@ -40,13 +40,14 @@ export function SidebarDemo() {
     },
   ];
   const [open, setOpen] = useState(false);
-  const { admin, navigate } = useAppContext();
+  const { admin, navigate, loading } = useAppContext();
 
   useEffect(() => {
-    if (!admin) {
+    if (!loading && !admin) {
       navigate("/");
     }
-  }, [admin]);
+  }, [admin, loading]);
+  if (loading) return <p>Loading...</p>;
   return (
     <>
       <AdminNavbar />
