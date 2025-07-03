@@ -1,4 +1,7 @@
 import User from "../models/user.js";
+import bcrypt from "bcrypt";
+
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 export const adminLogin = async (req, res) => {
   const { identifier, password } = req.body;
@@ -24,12 +27,22 @@ export const adminLogin = async (req, res) => {
         .json({ success: false, message: "User not found, Please register" });
     }
 
-    if (existingUser.password !== password) {
+    const match = await bcrypt.compare(password, existingUser.password);
+    if (!match) {
       console.log("Incorrect password entered.");
       return res
         .status(401)
-        .json({ success: false, message: "Incorrect email or password" });
+        .json({ success: false, message: "Incorrect credentials" });
     }
+
+    //Store user info in session
+    req.session.user = {
+      id: existingUser._id,
+      email: existingUser.email,
+      username: existingUser.username,
+    };
+
+    console.log("Session after login: ", req.session);
 
     console.log("Login successful for user:", existingUser.email);
     res
@@ -63,7 +76,13 @@ export const adminRegister = async (req, res) => {
       });
     }
 
-    const newUser = await User.create({ username, email, password });
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
     console.log(`User created successfully with data: ${newUser}`);
     res
       .status(200)
@@ -71,5 +90,34 @@ export const adminRegister = async (req, res) => {
   } catch (err) {
     console.log("Error in adminRegister function :", err);
     res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const getAdminData = async (req, res) => {
+  console.log("[getAdminData] getUserData called");
+  try {
+    // Check if user session exists
+    if (!req.session || !req.session.user) {
+      console.log("[getAdminData] No user session found");
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - Please login first",
+      });
+    }
+
+    const admin = req.session.user;
+    console.log("[getAdminData] User session found:", admin);
+
+    // Return the admin data
+    return res.status(200).json({
+      success: true,
+      admin,
+    });
+  } catch (err) {
+    console.log("[getAdminData] Error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
