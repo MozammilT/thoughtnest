@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAppContext } from "../../context/AppContext.jsx";
 
 export function SelectDemo({ category, setCategory }) {
   return (
@@ -35,12 +36,43 @@ export function AddblogMenu() {
 
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [category, setCategory] = useState("");
   const [isPublished, setIsPublished] = useState(false);
+  const { axios } = useAppContext();
 
   const submitHabndler = async (e) => {
     e.preventDefault();
+
+    //Debug logs
+    console.log("Submit Handler Triggered");
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("subTitle", subTitle);
+      formData.append("category", category);
+      formData.append("isPublished", isPublished);
+      formData.append("image", image);
+
+      const { data } = await axios.post("/api/blog/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (data.success) {
+        setImage(null);
+        setTitle("");
+        setDescription("");
+        setSubTitle("");
+        setCategory("");
+        setIsPublished(false);
+      }
+    } catch (err) {
+      console.log("[submitHabndler] error when submitting the blog: ", err);
+    }
   };
 
   useEffect(() => {
@@ -57,6 +89,12 @@ export function AddblogMenu() {
           ],
         },
         placeholder: "Write your blog content here...",
+      });
+
+      //Listen to text change event
+      quillRef.current.on("text-change", () => {
+        const editorContext = quillRef.current.root.innerHTML;
+        setDescription(editorContext);
       });
     }
   }, []);
@@ -123,7 +161,12 @@ export function AddblogMenu() {
             onChange={(e) => setIsPublished(e.target.checked)}
           />
         </div>
-        <button type="submit" className="bg-primary px-4 py-1.5 mt-5 rounded text-white cursor-pointer hover:scale-105 transition-all duration-200">Add Blog</button>
+        <button
+          type="submit"
+          className="bg-primary px-4 py-1.5 mt-5 rounded text-white cursor-pointer hover:scale-105 transition-all duration-200"
+        >
+          Add Blog
+        </button>
       </div>
     </form>
   );
