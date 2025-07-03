@@ -3,9 +3,12 @@ import "dotenv/config";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import adminRoute from "./routes/adminRoute.js";
+import blogRoute from "./routes/blogRoutes.js";
 import session from "express-session";
+import connectCloudinary from "./config/cloudinary.js";
 
 connectDB();
+connectCloudinary();
 
 const app = express();
 const port = 3000;
@@ -36,6 +39,7 @@ app.get("/", (_, res) => {
 });
 
 app.use("/api/admin", adminRoute);
+app.use("/api/blog", blogRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
