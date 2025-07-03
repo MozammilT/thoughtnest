@@ -46,6 +46,7 @@ export const AppProvider = ({ children }) => {
     navigate,
     fetchAdmin,
     loading,
+    axios,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
