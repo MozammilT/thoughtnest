@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
+import { useAppContext } from "../../context/AppContext.jsx";
 import axios from "axios";
 
 function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { fetchAdmin } = useAppContext();
   const navigate = useNavigate();
 
   const loginRequestHandler = async (e) => {
@@ -15,10 +17,12 @@ function Login() {
     try {
       const { data } = await axios.post(
         "http://localhost:3000/api/admin/login",
-        { identifier, password }
+        { identifier, password },
+        { withCredentials: true }
       );
 
       if (data.success) {
+        await fetchAdmin();
         navigate("/dashboard");
       }
     } catch (err) {
