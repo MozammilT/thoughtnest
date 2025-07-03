@@ -53,7 +53,7 @@ export const addBlog = async (req, res) => {
       image: imageURL,
       isPublished,
       subTitle,
-      author: req.session.user._id,
+      author: req.session.user.id,
     });
 
     console.log("[addBlog] Blog created successfully:", newBlog);
