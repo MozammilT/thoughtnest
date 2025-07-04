@@ -12,6 +12,7 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Routes, Route, Outlet } from "react-router-dom";
 import AdminNavbar from "@/components/admin/AdminNavbar";
+import Loading from "../../components/Loading.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
 
 export function SidebarDemo() {
@@ -47,7 +48,7 @@ export function SidebarDemo() {
       navigate("/");
     }
   }, [admin, loading]);
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   return (
     <>
       <AdminNavbar />
