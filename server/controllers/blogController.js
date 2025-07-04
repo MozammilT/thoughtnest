@@ -1,4 +1,5 @@
 import Blog from "../models/blog.js";
+import Comment from "../models/comment.js";
 import { v2 as cloudinary } from "cloudinary";
 
 export const addBlog = async (req, res) => {
@@ -63,6 +64,115 @@ export const addBlog = async (req, res) => {
       .json({ success: true, message: "Blog uploaded successfully" });
   } catch (err) {
     console.error("[addBlog] Error:", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const getAllBlog = async (req, res) => {
+  console.log("getAllBlog function called...");
+  try {
+    const blogData = await Blog.find({ isPublished: true });
+    res.status(200).json({ success: true, blogData });
+  } catch (err) {
+    console.log("Error in getAllBlog function: ", err);
+    res.status(500).json({ success: false, message: "Error fetching blog" });
+  }
+};
+
+export const getBlogById = async (req, res) => {
+  console.log("getBlogById function called...");
+  try {
+    const { id } = req.params;
+    const blogData = await Blog.findById(id);
+    if (!blogData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Blog not found" });
+    }
+
+    res.status(200).json({ success: true, message: blogData });
+  } catch (err) {
+    console.log("Error in getBlogById function: ", err);
+    res.status(500).json({ success: false, message: "Error fetching blog" });
+  }
+};
+
+export const deleteBlogById = async (req, res) => {
+  console.log("deleteBlogById function called...");
+  try {
+    const { id } = req.param;
+    const blogData = await Blog.findByIdandDelete(id);
+    if (!blogData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Blog not found" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "Blog deleted successfully" });
+  } catch (err) {
+    console.log("Error in deleteBlogById function: ", err);
+    res.status(500).json({ success: false, message: "Error fetching blog" });
+  }
+};
+
+export const togglePublish = async (req, res) => {
+  console.log("togglePublish function called...");
+  try {
+    const { id } = req.body;
+    const blogData = await Blog.findById(id);
+    if (!blogData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Blog not found" });
+    }
+    console.log("[togglePublish] Blog found:", blogData);
+    blogData.isPublished = !blogData.isPublished;
+    await blogData.save();
+    console.log(
+      "[togglePublish] Blog status updated. New value: ",
+      blogData.isPublished
+    );
+    res.status(200).json({ success: true, message: "Blog status updated" });
+  } catch (err) {
+    console.log("Error in togglePublish function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const addComment = async (req, res) => {
+  console.log("addComment function called...");
+  try {
+    const { blog, name, content } = req.body;
+    const commentData = await Comment.create({
+      blog,
+      name,
+      content,
+    });
+    console.log("[addComment] Comment created: ", commentData);
+    res
+      .status(200)
+      .json({ success: true, message: "Coment created successfully" });
+  } catch (err) {
+    console.log("Error in addComment function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const getBlogComments = async (req, res) => {
+  console.log("getBlogComments function called...");
+  try {
+    const { id } = req.body;
+    const blogComment = await Comment.find({ blog: id, isApproved: true }).sort(
+      { createdAt: -1 }
+    );
+    console.log(
+      `[getBlogComments] Comments for blog - ${id} fetched: ${blogComment}`
+    );
+    res.status(200).json({ success: true, blogComment });
+  } catch (err) {
+    console.log("Error in getBlogComments function: ", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
