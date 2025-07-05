@@ -101,7 +101,7 @@ export const deleteBlogById = async (req, res) => {
   console.log("deleteBlogById function called...");
   try {
     const { id } = req.params;
-    const blogData = await Blog.findByIdandDelete(id);
+    const blogData = await Blog.findByIdAndDelete(id);
     if (!blogData) {
       return res
         .status(404)
