@@ -101,6 +101,7 @@ export const deleteBlogById = async (req, res) => {
   console.log("deleteBlogById function called...");
   try {
     const { id } = req.params;
+    console.log(`[deleteBlogById] Request to delete blog with ID: ${id}`);
     const blogData = await Blog.findByIdAndDelete(id);
     if (!blogData) {
       return res
@@ -114,12 +115,10 @@ export const deleteBlogById = async (req, res) => {
       `[deleteBlogById] Associated comments deleted. Count: ${commentData.deletedCount}`
     );
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Blog and associated comments deleted successfully",
-      });
+    res.status(200).json({
+      success: true,
+      message: "Blog and associated comments deleted successfully",
+    });
   } catch (err) {
     console.log("Error in deleteBlogById function: ", err);
     res.status(500).json({ success: false, message: "Error fetching blog" });
