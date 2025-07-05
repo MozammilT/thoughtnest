@@ -1,11 +1,13 @@
 import User from "../models/user.js";
+import Comment from "../models/comment.js";
+import Blog from "../models/blog.js";
 import bcrypt from "bcrypt";
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 export const adminLogin = async (req, res) => {
   const { identifier, password } = req.body;
-  console.log("Login Attempt:", { identifier, password });
+  console.log("Login Attempt:", { identifier });
 
   if (!identifier || !password) {
     console.log("Missing credentials.");
@@ -119,5 +121,159 @@ export const getAdminData = async (req, res) => {
       success: false,
       message: "Internal server error",
     });
+  }
+};
+
+export const getAllAdminBlogs = async (req, res) => {
+  console.log("getAllAdminBlogs function called...");
+  try {
+    if (!req.session || !req.session.user) {
+      console.log("[getAllComments] No user session found");
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - Please login first",
+      });
+    }
+    const author = req.session.user.id;
+    console.log("[getAllComments] Logged in user ID:", author);
+
+    const blog = await Blog.find({ author: author })
+      .sort({ createddAt: -1 })
+      .lean();
+    console.log("[getAllAdminBlogs] Blogs fetched for admin");
+    res.status(200).json({ success: true, blog });
+  } catch (err) {
+    console.log("Error in getAllAdminBlogs function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const getAllComments = async (req, res) => {
+  console.log("getAllComments function called...");
+  try {
+    if (!req.session || !req.session.user) {
+      console.log("[getAllComments] No user session found");
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - Please login first",
+      });
+    }
+    const author = req.session.user.id;
+    console.log("[getAllComments] Logged in user ID:", author);
+
+    // Find blogs written by this user
+    const blogs = await Blog.find({ author: author }).select("_id");
+    const blogIds = blogs.map((blog) => blog._id);
+    console.log(`[getAllComments] Found ${blogIds.length} blogs for user`);
+
+    //Fetch only rellevant comments
+    const comments = await Comment.find({ blog: { $in: blogIds } })
+      .populate("blog")
+      .sort({ createdAt: -1 })
+      .lean();
+    console.log(`[getAllComments] Found ${comments.length} relevant comments`);
+
+    res.status(200).json({ success: true, comments });
+  } catch (err) {
+    console.log("Error in getAllComments function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const getDashboard = async (req, res) => {
+  console.log("getDashboard function called...");
+  // Check if user session exists
+  if (!req.session || !req.session.user) {
+    console.log("[getDashboard] No user session found");
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized - Please login first",
+    });
+  }
+  const author = req.session.user.id;
+  console.log("[getDashboard] User found: ", author);
+  try {
+    const recentBlogs = await Blog.find({ author: author })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .lean();
+    const blogs = await Blog.find({ author: author }).countDocuments();
+    const comments = await Comment.find({ user: author }).countDocuments();
+    const drafts = await Blog.find({
+      author: author,
+      isPublished: false,
+    }).lean();
+
+    console.log("[getDashboard] Dashboard Data Summary:", {
+      recentBlogs: recentBlogs.length,
+      totalBlogs: blogs,
+      totalComments: comments,
+      totalDrafts: drafts.length,
+    });
+    const dashboardData = {
+      recentBlogs,
+      blogs,
+      comments,
+      drafts,
+    };
+    res.status(200).json({ success: true, dashboardData });
+  } catch (err) {
+    console.log("Error in getDashboard function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  console.log("deleteComment function called...");
+  try {
+    const { id } = req.body;
+    console.log(`[deleteComment] Request to delete comment with ID: ${id}`);
+
+    if (!id) {
+      console.log("[deleteComment] No comment ID provided in request");
+      return res.status(400).json({
+        success: false,
+        message: "Comment ID is required",
+      });
+    }
+
+    const deleteComment = await Comment.findByIdAndDelete(id);
+    console.log("[deleteComment] Comment deleted successfully:", deleteComment);
+    res
+      .status(200)
+      .json({ success: true, message: "Comment deleted successfully" });
+  } catch (err) {
+    console.log("Error in deleteComment function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const approveComment = async (req, res) => {
+  console.log("approveComment function called...");
+  const { id } = req.body;
+  console.log(`[approveComment] Request to approve comment with ID: ${id}`);
+  if (!id) {
+    console.log("[approveComment] No comment ID provided in request");
+    return res.status(400).json({
+      success: false,
+      message: "Comment ID is required",
+    });
+  }
+  try {
+    const approvedComment = await Comment.findByIdAndUpdate(
+      id,
+      { isApproved: true },
+      { new: true }
+    );
+    console.log(
+      "[approveComment] Comment approved successfully:",
+      approvedComment
+    );
+    res
+      .status(200)
+      .json({ success: true, message: "Comment approved successfully" });
+  } catch (err) {
+    console.log("Error in approveComment function: ", err);
+    res.status(500).json({ success: false, message: err.message });
   }
 };

@@ -100,7 +100,7 @@ export const getBlogById = async (req, res) => {
 export const deleteBlogById = async (req, res) => {
   console.log("deleteBlogById function called...");
   try {
-    const { id } = req.param;
+    const { id } = req.params;
     const blogData = await Blog.findByIdandDelete(id);
     if (!blogData) {
       return res
@@ -108,9 +108,18 @@ export const deleteBlogById = async (req, res) => {
         .json({ success: false, message: "Blog not found" });
     }
 
+    //Delete all comments associated with this blog
+    const commentData = await Comment.deleteMany({ blog: id });
+    console.log(
+      `[deleteBlogById] Associated comments deleted. Count: ${commentData.deletedCount}`
+    );
+
     res
       .status(200)
-      .json({ success: true, message: "Blog deleted successfully" });
+      .json({
+        success: true,
+        message: "Blog and associated comments deleted successfully",
+      });
   } catch (err) {
     console.log("Error in deleteBlogById function: ", err);
     res.status(500).json({ success: false, message: "Error fetching blog" });
@@ -145,7 +154,9 @@ export const addComment = async (req, res) => {
   console.log("addComment function called...");
   try {
     const { blog, name, content } = req.body;
+    const user = req.session.user.id;
     const commentData = await Comment.create({
+      user,
       blog,
       name,
       content,
