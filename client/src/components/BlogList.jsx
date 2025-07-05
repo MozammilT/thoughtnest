@@ -2,9 +2,11 @@ import { useState } from "react";
 import { blogCategories, blog_data } from "../constants/assets";
 import { motion } from "motion/react";
 import BlogCard from "./BlogCard";
+import { useAppContext } from "../context/AppContext.jsx";
 
 function BlogList() {
   const [menu, setMenu] = useState("All");
+  const { blogs } = useAppContext();
 
   return (
     <div>
@@ -31,7 +33,7 @@ function BlogList() {
       </div>
       {/* Blog cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-24 mx-8 sm:mx-16 xl:mx-40">
-        {blog_data
+        {blogs
           .filter((blog) => (menu === "All" ? true : blog.category === menu))
           .map((blog) => (
             <BlogCard key={blog._id} blog={blog} />
