@@ -207,7 +207,9 @@ export const getDashboard = async (req, res) => {
     const drafts = await Blog.find({
       author: author,
       isPublished: false,
-    }).lean();
+    })
+      .countDocuments()
+      .lean();
 
     console.log("[getDashboard] Dashboard Data Summary:", {
       recentBlogs: recentBlogs.length,
