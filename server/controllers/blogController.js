@@ -83,14 +83,14 @@ export const getBlogById = async (req, res) => {
   console.log("getBlogById function called...");
   try {
     const { id } = req.params;
-    const blogData = await Blog.findById(id);
+    const blogData = await Blog.findById(id).populate("author");
     if (!blogData) {
       return res
         .status(404)
         .json({ success: false, message: "Blog not found" });
     }
 
-    res.status(200).json({ success: true, message: blogData });
+    res.status(200).json({ success: true, blogData });
   } catch (err) {
     console.log("Error in getBlogById function: ", err);
     res.status(500).json({ success: false, message: "Error fetching blog" });
