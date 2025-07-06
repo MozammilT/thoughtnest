@@ -6,7 +6,18 @@ import { useAppContext } from "../context/AppContext.jsx";
 
 function BlogList() {
   const [menu, setMenu] = useState("All");
-  const { blogs } = useAppContext();
+  const { blogs, inputs } = useAppContext();
+
+  const filterBlogs = () => {
+    if (inputs === "") {
+      return blogs;
+    }
+    return blogs.filter(
+      (blog) =>
+        blog.title.toLowerCase().includes(inputs.toLowerCase()) ||
+        blog.category.toLowerCase().includes(inputs.toLowerCase())
+    );
+  };
 
   return (
     <div>
@@ -33,7 +44,7 @@ function BlogList() {
       </div>
       {/* Blog cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-24 mx-8 sm:mx-16 xl:mx-40">
-        {blogs
+        {filterBlogs()
           .filter((blog) => (menu === "All" ? true : blog.category === menu))
           .map((blog) => (
             <BlogCard key={blog._id} blog={blog} />

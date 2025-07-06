@@ -1,8 +1,22 @@
+import { useRef } from "react";
 import BlogCount from "./BlogCount";
 import HeaderPara from "./HeaderPara";
 import Heading from "./Heading";
+import { useAppContext } from "../context/AppContext.jsx";
 
 function Header() {
+  const { setInputs, inputs } = useAppContext();
+  const inputRef = useRef();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setInputs(inputRef.current.value);
+  };
+
+  const clearSearch = async () => {
+    setInputs("");
+  };
+
   return (
     <div className="mx-8 sm:mx-16 xl:mx-24 relative">
       <div className="text-center mt-20 mb-8 items-center justify-center">
@@ -15,7 +29,10 @@ function Header() {
         <BlogCount />
       </div>
 
-      <form className="flex mx-auto items-center border pl-4 gap-2 bg-white border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md w-full">
+      <form
+        onSubmit={submitHandler}
+        className="flex mx-auto items-center border pl-4 gap-2 bg-white border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md w-full"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="30"
@@ -28,6 +45,7 @@ function Header() {
         <input
           required
           type="text"
+          ref={inputRef}
           placeholder="Search for blogs"
           className="w-full h-full outline-none text-sm text-gray-500"
         />
@@ -38,6 +56,16 @@ function Header() {
           Search
         </button>
       </form>
+      <div className="text-center mt-5">
+        {inputs && (
+          <button
+            onClick={clearSearch}
+            className="border border-gray-400 font-light text-sm text-gray-600 py-0.5 px-3 rounded-sm shadow-custom-sm cursor-pointer"
+          >
+            Clear
+          </button>
+        )}
+      </div>
 
       <img
         src="gradientBackground.png"
