@@ -5,37 +5,72 @@ import { blog_data, comments_data } from "../constants/assets.js";
 import moment from "moment";
 import Loading from "../components/Loading.jsx";
 import Footer from "../components/Footer.jsx";
+import { useAppContext } from "../context/AppContext.jsx";
+import { toast } from "react-hot-toast";
 
 function Blog() {
   const { id } = useParams();
-  const [data, setData] = useState(null);
+  const [blogData, setBlogData] = useState(null);
   const [comments, setComments] = useState([]);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const { axios } = useAppContext();
 
   const fetchBlogData = async () => {
     try {
       setLoading(true);
-      const blogData = blog_data.find((item) => item._id === id);
-      setData(blogData);
+      const { data } = await axios.get(`/api/blog/${id}`);
+      if (data.success) {
+        setBlogData(data.blogData);
+      }
     } catch (err) {
-      cinsole.log(err);
+      toast.error(err.message);
+      console.log(err);
     } finally {
       setLoading(false);
     }
   };
 
   const fetchComments = async () => {
-    setComments(comments_data);
+    try {
+      const { data } = await axios.post("/api/blog/comments", { id });
+      if (data.success) {
+        setComments(data.blogComment);
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
   };
 
   const commentHandler = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
+      const { data } = await axios.post("/api/blog/add-comments", {
+        blog: id,
+        name,
+        content,
+      });
+      if (data.success) {
+        toast.success(data.message);
+        fetchComments();
+        setContent("");
+        setName("")
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
   };
 
   useEffect(() => {
     fetchBlogData();
+  }, []);
+
+  useEffect(() => {
     fetchComments();
   }, []);
 
@@ -44,7 +79,7 @@ function Blog() {
       <Navbar />
       {loading ? (
         <Loading />
-      ) : data ? (
+      ) : blogData ? (
         <>
           <div className="relative">
             <img
@@ -53,26 +88,26 @@ function Blog() {
             />
             <div className="text-center mt-20">
               <p className="text-primary font-medium my-5">
-                Published on {moment(data.createdAt).format("MMMM Do YYYY")}
+                Published on {moment(blogData.createdAt).format("MMMM Do YYYY")}
               </p>
               <h1 className="text-gray-600 text-2xl sm:text-5xl font-semibold max-w-2xl my-5 mx-auto">
-                {data.title}
+                {blogData.title}
               </h1>
               <p className="text-gray-600 text-xl my-5 truncate max-w-lg mx-auto">
-                {data.subTitle}
+                {blogData.subTitle}
               </p>
-              <span className="text-primary inline-block bg-primary/10 rounded-full px-4 py-1.5 border my-4 text-sm">
-                Mozammil Tarique
+              <span className="text-primary inline-block bg-primary/10 rounded-full px-4 py-1.5 border my-4 text-base font-medium">
+                {blogData.author.username}
               </span>
             </div>
             <div className="mx-5 max-w-5xl md:mx-auto my-10 mt-6">
               <img
-                src={data.image}
+                src={blogData.image}
                 className="rounded-3xl mb-10 w-full h-auto max-h-[450px] object-cover"
               />
               <div
                 className="rich-text max-w-3xl mx-auto"
-                dangerouslySetInnerHTML={{ __html: data.description }}
+                dangerouslySetInnerHTML={{ __html: blogData.description }}
               ></div>
 
               <div className="mt-14 mb-10 max-w-3xl mx-auto">
@@ -87,7 +122,9 @@ function Blog() {
                         <img src="/user_icon.svg" className="w-8" />
                         <p className="font-medium">{comment.name}</p>
                       </div>
-                      <p className="text-sm max-w-md ml-8">{comment.name}</p>
+                      <p className="text-sm max-w-md ml-10">
+                        {comment.content}
+                      </p>
                       <div className="absolute right-4 bottom-3 text-sm flex items-center gap-2">
                         {moment(comment.createdAt).fromNow()}
                       </div>
