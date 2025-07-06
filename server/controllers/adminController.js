@@ -197,8 +197,13 @@ export const getDashboard = async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(5)
       .lean();
+
     const blogs = await Blog.find({ author: author }).countDocuments();
-    const comments = await Comment.find({ user: author }).countDocuments();
+    const blogsByAdmin = await Blog.find({ author: author }).select("_id");
+    const blogIds = blogsByAdmin.map((blog) => blog.id);
+    const comments = await Comment.find({
+      blog: { $in: blogIds },
+    }).countDocuments();
     const drafts = await Blog.find({
       author: author,
       isPublished: false,
