@@ -40,7 +40,7 @@ export function AddblogMenu() {
   const [subTitle, setSubTitle] = useState("");
   const [category, setCategory] = useState("");
   const [isPublished, setIsPublished] = useState(false);
-  const { axios } = useAppContext();
+  const { axios, fetchBlogs } = useAppContext();
 
   const submitHabndler = async (e) => {
     e.preventDefault();
@@ -69,6 +69,8 @@ export function AddblogMenu() {
         setSubTitle("");
         setCategory("");
         setIsPublished(false);
+        fetchBlogs();
+        quillRef.current.root.innerHTML = "";
       }
     } catch (err) {
       console.log("[submitHabndler] error when submitting the blog: ", err);
