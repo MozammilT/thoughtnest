@@ -15,6 +15,7 @@ function Header() {
 
   const clearSearch = async () => {
     setInputs("");
+    inputRef.current.value = "";
   };
 
   return (

@@ -19,6 +19,10 @@ function BlogList() {
     );
   };
 
+  const filteredBlogs = filterBlogs().filter(
+    (blog) => menu === "All" || blog.category === menu
+  );
+
   return (
     <div>
       <div className="flex justify-center gap-4 sm:gap-8 my-10 relative">
@@ -44,11 +48,13 @@ function BlogList() {
       </div>
       {/* Blog cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-24 mx-8 sm:mx-16 xl:mx-40">
-        {filterBlogs()
-          .filter((blog) => (menu === "All" ? true : blog.category === menu))
-          .map((blog) => (
-            <BlogCard key={blog._id} blog={blog} />
-          ))}
+        {filteredBlogs.length === 0 ? (
+          <p className="text-center col-span-full text-gray-500 text-lg">
+            No content found
+          </p>
+        ) : (
+          filteredBlogs.map((blog) => <BlogCard key={blog._id} blog={blog} />)
+        )}
       </div>
     </div>
   );
