@@ -153,7 +153,7 @@ export const addComment = async (req, res) => {
   console.log("addComment function called...");
   try {
     const { blog, name, content } = req.body;
-    const user = req.session.user.id;
+    const user = req.session?.user?.id || null;
     const commentData = await Comment.create({
       user,
       blog,
