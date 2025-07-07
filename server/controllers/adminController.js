@@ -134,14 +134,15 @@ export const getAllAdminBlogs = async (req, res) => {
         message: "Unauthorized - Please login first",
       });
     }
-    const author = req.session.user.id;
-    console.log("[getAllComments] Logged in user ID:", author);
 
-    const blog = await Blog.find({ author: author })
-      .sort({ createddAt: -1 })
+    const author = req.session.user.id;
+    console.log("[getAllAdminBlogs] Logged in user ID:", author);
+
+    const blogs = await Blog.find({ author: author })
+      .sort({ createdAt: -1 })
       .lean();
-    console.log("[getAllAdminBlogs] Blogs fetched for admin");
-    res.status(200).json({ success: true, blog });
+    console.log(`[getAllAdminBlogs] Blogs fetched for admin: ${author}`);
+    res.status(200).json({ success: true, blogs });
   } catch (err) {
     console.log("Error in getAllAdminBlogs function: ", err);
     res.status(500).json({ success: false, message: err.message });
