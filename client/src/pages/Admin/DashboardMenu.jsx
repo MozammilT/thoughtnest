@@ -75,6 +75,9 @@ function DashboardMenu() {
                 <th scope="col" className="px-2 py-4">
                   blog title
                 </th>
+                <th scope="col" className="px-2 py-4">
+                  Category
+                </th>
                 <th scope="col" className="px-2 py-4 max-sm:hidden">
                   date
                 </th>
@@ -94,6 +97,7 @@ function DashboardMenu() {
                   key={idx + 1}
                   index={idx + 1}
                   fetchBlogs={fetchDashboard}
+                  isAlternate={idx % 2 === 0}
                 />
               ))}
             </tbody>
