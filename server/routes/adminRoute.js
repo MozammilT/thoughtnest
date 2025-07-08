@@ -17,7 +17,7 @@ adminRoute.get("/", getAdminData);
 adminRoute.get("/blogs", getAllAdminBlogs);
 adminRoute.get("/comments", getAllComments);
 adminRoute.get("/dashboard", getDashboard);
-adminRoute.delete("/delete-comment", deleteComment);
+adminRoute.delete("/delete-comment/:id", deleteComment);
 adminRoute.delete("/approve-comment", approveComment);
 
 export default adminRoute;

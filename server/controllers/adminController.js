@@ -234,7 +234,7 @@ export const getDashboard = async (req, res) => {
 export const deleteComment = async (req, res) => {
   console.log("deleteComment function called...");
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     console.log(`[deleteComment] Request to delete comment with ID: ${id}`);
 
     if (!id) {
