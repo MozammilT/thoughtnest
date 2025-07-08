@@ -1,13 +1,68 @@
 import { useState, useEffect } from "react";
-import { comments_data } from "../../constants/assets.js";
+import { useAppContext } from "../../context/AppContext.jsx";
 import moment from "moment";
+import { toast } from "react-hot-toast";
 
 function CommentsMenu() {
   const [comments, setComments] = useState([]);
   const [filter, setFilter] = useState("Approved");
+  const { axios } = useAppContext();
 
   const fetchComents = async () => {
-    setComments(comments_data);
+    try {
+      const { data } = await axios.get("/api/admin/comments");
+      if (data.success) {
+        setComments(data.comments);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
+  };
+
+  const deleteComment = async (id) => {
+    try {
+      const confirm = window.confirm("Are you sure?");
+      if (!confirm) return;
+      const { data } = await axios.delete(`/api/admin/delete-comment/${id}`);
+      if (data.success) {
+        toast.success(data.message);
+        fetchComents();
+      } else {
+        toast.error(err.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
+  };
+
+  const disapproveCommentStatus = async (id) => {
+    try {
+      const { data } = await axios.post(`/api/admin/disapprove-comment/${id}`);
+      if (data.success) {
+        toast.success(data.message);
+        fetchComents();
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
+  };
+
+  const approveCommentStatus = async (id) => {
+    try {
+      const { data } = await axios.post(`/api/admin/approve-comment/${id}`);
+      if (data.success) {
+        toast.success(data.message);
+        fetchComents();
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -21,7 +76,7 @@ function CommentsMenu() {
         <div className="flex gap-4">
           <button
             onClick={() => setFilter("Approved")}
-            className={`shadow-sm border rounded-full px-4 py-1 cursor-pointer text-xs ${
+            className={`shadow-md border rounded-full px-4 py-1 cursor-pointer text-xs ${
               filter === "Approved" ? "text-primary" : "text-gray-700"
             }`}
           >
@@ -29,7 +84,7 @@ function CommentsMenu() {
           </button>
           <button
             onClick={() => setFilter("Not Approved")}
-            className={`shadow-sm border rounded-full px-4 py-1 cursor-pointer text-xs ${
+            className={`shadow-md border rounded-full px-4 py-1 cursor-pointer text-xs ${
               filter === "Not Approved" ? "text-primary" : "text-gray-700"
             }`}
           >
@@ -48,7 +103,7 @@ function CommentsMenu() {
               <th scope="col" className="px-6 py-3 max-sm:hidden">
                 Date
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-10 py-3">
                 Actions
               </th>
             </tr>
@@ -72,22 +127,34 @@ function CommentsMenu() {
                   <td className="px-6 py-4 max-sm:hidden">
                     {moment(comment.blog.createdAt).format("MMMM Do, YYYY")}
                   </td>
-                  <td className="px-20 py-4">
+                  <td className="px-6 py-4">
                     <div className="inline-flex items-center gap-4 ml-4">
                       {!comment.isApproved ? (
-                        <img
-                          src="/tick_icon.svg"
-                          className="w-5 hover:scale-105 cursor-pointer transition-all"
-                        />
+                        <button
+                          onClick={() => approveCommentStatus(comment._id)}
+                        >
+                          <img
+                            src="/tick_icon.svg"
+                            title="Approve Comment"
+                            className="w-5 hover:scale-105 cursor-pointer transition-all"
+                          />
+                        </button>
                       ) : (
-                        <p className="text-xs border border-green-600 text-green-600 rounded-full px-3 py-1isApproved">
-                          Approved
-                        </p>
+                        <button
+                          onClick={() => disapproveCommentStatus(comment._id)}
+                          className="text-xs border border-green-600 text-green-600 rounded-full px-3 py-1 cursor-pointer"
+                        >
+                          Disapprove
+                        </button>
                       )}
-                      <img
-                        src="/bin_icon.svg"
-                        className="w-5 hover:scale-105 cursor-pointer transition-all"
-                      />
+                      <button>
+                        <img
+                          src="/bin_icon.svg"
+                          title="Delete Comment"
+                          onClick={() => deleteComment(comment._id)}
+                          className="w-5 hover:scale-125 cursor-pointer transition-all"
+                        />
+                      </button>
                     </div>
                   </td>
                 </tr>
