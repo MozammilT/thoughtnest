@@ -256,9 +256,39 @@ export const deleteComment = async (req, res) => {
   }
 };
 
+export const disapproveComment = async (req, res) => {
+  console.log("disapproveComment function called...");
+  const { id } = req.params;
+  console.log(`[disapproveComment] Request to approve comment with ID: ${id}`);
+  if (!id) {
+    console.log("[disapproveComment] No comment ID provided in request");
+    return res.status(400).json({
+      success: false,
+      message: "Comment ID is required",
+    });
+  }
+  try {
+    const approvedComment = await Comment.findByIdAndUpdate(
+      id,
+      { isApproved: false },
+      { new: false }
+    );
+    console.log(
+      "[disapproveComment] Comment approved successfully:",
+      approvedComment
+    );
+    res
+      .status(200)
+      .json({ success: true, message: "Comment disapproved successfully" });
+  } catch (err) {
+    console.log("Error in disapproveComment function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 export const approveComment = async (req, res) => {
   console.log("approveComment function called...");
-  const { id } = req.body;
+  const { id } = req.params;
   console.log(`[approveComment] Request to approve comment with ID: ${id}`);
   if (!id) {
     console.log("[approveComment] No comment ID provided in request");
@@ -268,14 +298,14 @@ export const approveComment = async (req, res) => {
     });
   }
   try {
-    const approvedComment = await Comment.findByIdAndUpdate(
+    const approveComment = await Comment.findByIdAndUpdate(
       id,
       { isApproved: true },
       { new: true }
     );
     console.log(
-      "[approveComment] Comment approved successfully:",
-      approvedComment
+      "[disapproveComment] Comment approved successfully:",
+      approveComment
     );
     res
       .status(200)

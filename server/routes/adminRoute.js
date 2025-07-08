@@ -7,6 +7,7 @@ import {
   getAllComments,
   getDashboard,
   deleteComment,
+  disapproveComment,
   approveComment,
 } from "../controllers/adminController.js";
 
@@ -18,6 +19,7 @@ adminRoute.get("/blogs", getAllAdminBlogs);
 adminRoute.get("/comments", getAllComments);
 adminRoute.get("/dashboard", getDashboard);
 adminRoute.delete("/delete-comment/:id", deleteComment);
-adminRoute.delete("/approve-comment", approveComment);
+adminRoute.post("/disapprove-comment/:id", disapproveComment);
+adminRoute.post("/approve-comment/:id", approveComment);
 
 export default adminRoute;
