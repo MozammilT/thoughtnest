@@ -1,14 +1,13 @@
 import moment from "moment";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { toast } from "react-hot-toast";
+import { AlertDialogDemo } from "../AlertDialogue.jsx";
 
 function TableItem({ blog, fetchBlogs, index, isAlternate }) {
   const { title, createdAt, category, _id } = blog;
   const { axios } = useAppContext();
 
   const deleteBlog = async () => {
-    const confirm = window.confirm("Are you sure?");
-    if (!confirm) return;
     try {
       const { data } = await axios.delete(`/api/blog/delete/${_id}`);
       if (data.success) {
@@ -72,13 +71,21 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
         >
           {blog.isPublished ? "Unpublished" : "Published"}
         </button>
-        <button onClick={deleteBlog}>
-          <img
-            src="/cross_icon.svg"
-            className="w-8 rounded-full  hover:scale-125 hover:bg-red-100 transition-all cursor-pointer p-1"
-            alt="cross-icon"
-          />
-        </button>
+
+        <AlertDialogDemo
+          trigger={
+            <img
+              src="/cross_icon.svg"
+              className="w-8 rounded-full  hover:scale-125 hover:bg-red-100 transition-all cursor-pointer p-1"
+              alt="cross-icon"
+            />
+          }
+          title={"Are you sure?"}
+          description={
+            "Doing this will permanently delete this blog from our servers."
+          }
+          onConfirm={deleteBlog}
+        />
       </th>
     </tr>
   );
