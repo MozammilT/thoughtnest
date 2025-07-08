@@ -6,6 +6,8 @@ export default {
     extend: {
       colors: {
         primary: "#fdc700",
+        background: "var(--background)",
+        "muted-foreground": "var(--muted-foreground)",
       },
     },
   },
