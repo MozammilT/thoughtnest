@@ -117,7 +117,7 @@ export const deleteBlogById = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Blog and associated comments deleted successfully",
+      message: "Blog and its comments deleted successfully",
     });
   } catch (err) {
     console.log("Error in deleteBlogById function: ", err);
