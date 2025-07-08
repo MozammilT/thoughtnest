@@ -1,16 +1,34 @@
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { blog_data } from "../constants/assets.js";
+import { useAppContext } from "../context/AppContext.jsx";
 
 function BlogCount() {
+  const { axios } = useAppContext();
+  const [blogCount, setBlogCount] = useState(0);
+
+  const getBlogCount = async () => {
+    try {
+      const { data } = await axios.get("/api/blog/all");
+      if (data.success) {
+        setBlogCount(data.blogData.length);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const count = useMotionValue(0);
   const rounded = useTransform(() => Math.round(count.get()));
-  const countValue = blog_data.length;
 
   useEffect(() => {
-    const controls = animate(count, countValue, { duration: 3 });
-    return () => controls.stop();
+    getBlogCount();
   }, []);
+
+  useEffect(() => {
+    const controls = animate(count, blogCount, { duration: 3 });
+    return () => controls.stop();
+  }, [blogCount]);
 
   return (
     <p className="text-base text-gray-600 mb-2">
