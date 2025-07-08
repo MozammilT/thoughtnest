@@ -71,7 +71,9 @@ export const addBlog = async (req, res) => {
 export const getAllBlog = async (req, res) => {
   console.log("getAllBlog function called...");
   try {
-    const blogData = await Blog.find({ isPublished: true });
+    const blogData = await Blog.find({ isPublished: true }).sort({
+      createdAt: -1,
+    });
     res.status(200).json({ success: true, blogData });
   } catch (err) {
     console.log("Error in getAllBlog function: ", err);
