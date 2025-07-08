@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/AppContext.jsx";
 import moment from "moment";
 import { toast } from "react-hot-toast";
+import { AlertDialogDemo } from "../../components/AlertDialogue.jsx";
 
 function CommentsMenu() {
   const [comments, setComments] = useState([]);
@@ -24,8 +25,6 @@ function CommentsMenu() {
 
   const deleteComment = async (id) => {
     try {
-      const confirm = window.confirm("Are you sure?");
-      if (!confirm) return;
       const { data } = await axios.delete(`/api/admin/delete-comment/${id}`);
       if (data.success) {
         toast.success(data.message);
@@ -147,14 +146,20 @@ function CommentsMenu() {
                           Disapprove
                         </button>
                       )}
-                      <button>
-                        <img
-                          src="/bin_icon.svg"
-                          title="Delete Comment"
-                          onClick={() => deleteComment(comment._id)}
-                          className="w-5 hover:scale-125 cursor-pointer transition-all"
-                        />
-                      </button>
+                      <AlertDialogDemo
+                        trigger={
+                          <img
+                            src="/bin_icon.svg"
+                            title="Delete Comment"
+                            className="w-5 hover:scale-125 cursor-pointer transition-all"
+                          />
+                        }
+                        title={"Are you sure?"}
+                        description={
+                          "Doing this will permanently delete this comment from our servers."
+                        }
+                        onConfirm={() => deleteComment(comment._id)}
+                      />
                     </div>
                   </td>
                 </tr>
