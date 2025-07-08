@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.withCredentials = true;
@@ -12,6 +13,8 @@ export const AppProvider = ({ children }) => {
   const location = useLocation();
   const [admin, setAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [blogs, setBlogs] = useState([]);
+  const [inputs, setInputs] = useState("");
 
   const fetchAdmin = async () => {
     try {
@@ -37,8 +40,21 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
+  const fetchBlogs = async (req, res) => {
+    try {
+      const { data } = await axios.get("/api/blog/all");
+      data.success ? setBlogs(data.blogData) : toast.error(data.message);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  useEffect(() => { 
     fetchAdmin();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    fetchBlogs();
   }, [location.pathname]);
 
   const value = {
@@ -47,6 +63,11 @@ export const AppProvider = ({ children }) => {
     fetchAdmin,
     loading,
     axios,
+    blogs,
+    setBlogs,
+    inputs,
+    setInputs,
+    fetchBlogs,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
