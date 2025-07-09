@@ -53,8 +53,7 @@ export function SidebarDemo() {
       <AdminNavbar />
       <div
         className={cn(
-          "mx-auto flex w-full max-w-screen flex-1 flex-col overflow-hidden border border-neutral-200 bg-gray-100 md:flex-row",
-          "h-[90vh]"
+          "mx-auto flex w-full max-w-screen flex-1 flex-col overflow-hidden border border-neutral-200 bg-gray-100 md:flex-row h-[90vh]"
         )}
       >
         <Sidebar open={open} setOpen={setOpen} animate={false}>
