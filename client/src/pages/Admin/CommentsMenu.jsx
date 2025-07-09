@@ -71,7 +71,10 @@ function CommentsMenu() {
   return (
     <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-yellow-50/30">
       <div className="flex justify-between items-center max-w-3xl">
-        <h1>Comments</h1>
+        <div className="flex items-center gap-1 text-gray-600">
+          <img src="/comments_icon.svg" className="w-15"/>
+          <h1>Comments</h1>
+        </div>
         <div className="flex gap-4">
           <button
             onClick={() => setFilter("Approved")}
