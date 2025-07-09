@@ -54,7 +54,7 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
         {moment(createdAt).format("MMMM Do, YYYY")}
       </th>
       <th
-        className={`px-2 py-4 text-left max-sm:hidden font-medium ${
+        className={`px-2 py-4 text-left max-sm:hidden font-medium min-w-23 ${
           blog.isPublished ? "text-green-600" : "text-orange-700"
         }`}
       >
@@ -63,19 +63,21 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
       <th className="px-2 py-4 flex text-xs gap-3">
         <button
           onClick={togglePublish}
-          className={`px-2 py-1 rounded text-xs font-medium cursor-pointer ${
+          title={`${blog.isPublished ? "Unpublish comment" : "Publish comment"}`}
+          className={`px-2 py-1 rounded text-xs font-medium cursor-pointer min-w-20 ${
             blog.isPublished
               ? "bg-red-100 text-red-600 hover:bg-red-200"
               : "bg-green-100 text-green-600 hover:bg-green-200"
           } transition-all`}
         >
-          {blog.isPublished ? "Unpublished" : "Published"}
+          {blog.isPublished ? "Unpublish" : "Publish"}
         </button>
 
         <AlertDialogDemo
           trigger={
             <img
               src="/cross_icon.svg"
+              title="Delete comment"
               className="w-8 rounded-full  hover:scale-125 hover:bg-red-100 transition-all cursor-pointer p-1"
               alt="cross-icon"
             />

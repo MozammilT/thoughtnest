@@ -141,6 +141,7 @@ function CommentsMenu() {
                       ) : (
                         <button
                           onClick={() => disapproveCommentStatus(comment._id)}
+                          title="Disapprove comment"
                           className="text-xs border border-green-600 text-green-600 rounded-full px-3 py-1 cursor-pointer"
                         >
                           Disapprove
