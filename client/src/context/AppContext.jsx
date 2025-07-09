@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [admin, setAdmin] = useState(false);
+  const [username, setUsername] = useState(null)
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState([]);
   const [inputs, setInputs] = useState("");
@@ -25,6 +26,8 @@ export const AppProvider = ({ children }) => {
       if (data.success) {
         console.log("User is authenticated:", data.admin);
         setAdmin(true);
+        setUsername(data.admin.username)
+        console.log(data.admin.username)
       } else {
         console.log("User not authenticated");
         setAdmin(false);
@@ -68,6 +71,7 @@ export const AppProvider = ({ children }) => {
     inputs,
     setInputs,
     fetchBlogs,
+    username,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../../components/ui/sidebar";
 import {
-  IconArrowLeft,
   IconBrandTabler,
   IconMessageCircle,
   IconDeviceIpadHorizontalPlus,
@@ -10,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import Loading from "../../components/Loading.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
@@ -41,7 +40,7 @@ export function SidebarDemo() {
     },
   ];
   const [open, setOpen] = useState(false);
-  const { admin, navigate, loading } = useAppContext();
+  const { admin, navigate, loading, username } = useAppContext();
 
   useEffect(() => {
     if (!loading && !admin) {
@@ -55,7 +54,7 @@ export function SidebarDemo() {
       <div
         className={cn(
           "mx-auto flex w-full max-w-screen flex-1 flex-col overflow-hidden border border-neutral-200 bg-gray-100 md:flex-row",
-          "h-screen"
+          "h-[90vh]"
         )}
       >
         <Sidebar open={open} setOpen={setOpen} animate={false}>
@@ -71,11 +70,13 @@ export function SidebarDemo() {
             <div>
               <SidebarLink
                 link={{
-                  label: "Manu Arora",
+                  label: username || "admin",
                   href: "#",
                   icon: (
                     <img
-                      src="https://assets.aceternity.com/manu.png"
+                      src={`https://ui-avatars.com/api/?name=${
+                        username || "A"
+                      }&background=fdc700&color=000&rounded=true`}
                       className="h-7 w-7 shrink-0 rounded-full"
                       width={50}
                       height={50}
