@@ -1,6 +1,7 @@
 import Blog from "../models/blog.js";
 import Comment from "../models/comment.js";
 import { v2 as cloudinary } from "cloudinary";
+import main from "../config/gemini.js";
 
 export const addBlog = async (req, res) => {
   try {
@@ -185,6 +186,20 @@ export const getBlogComments = async (req, res) => {
     res.status(200).json({ success: true, blogComment });
   } catch (err) {
     console.log("Error in getBlogComments function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const generateContent = async (req, res) => {
+  console.log("generateContent function called...");
+  try {
+    const { prompt } = req.body;
+    const content = await main(
+      prompt + "Generate a blog content for this topic in simple text format"
+    );
+    res.status(200).json({ success: true, content });
+  } catch (err) {
+    console.log("Error in generateContent function: ", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };

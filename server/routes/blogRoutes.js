@@ -8,6 +8,7 @@ import {
   togglePublish,
   addComment,
   getBlogComments,
+  generateContent,
 } from "../controllers/blogController.js";
 
 const blogRoute = express.Router();
@@ -19,5 +20,6 @@ blogRoute.post("/toggle-publish", togglePublish);
 blogRoute.get("/:id", getBlogById);
 blogRoute.post("/add-comments", addComment);
 blogRoute.post("/comments", getBlogComments);
+blogRoute.post("/generate", generateContent);
 
 export default blogRoute;
