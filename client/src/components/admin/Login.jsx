@@ -88,7 +88,7 @@ function Login() {
                 className="w-full p-3  border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
               />
               <img
-                onClick={() => setShowPassword((prev) => (!prev))}
+                onClick={() => setShowPassword((prev) => !prev)}
                 src={showPassword ? "eye_show.svg" : "eye_hide.svg"}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer opacity-70 hover:opacity-100 duration-300 transition-all"
               />
@@ -96,10 +96,7 @@ function Login() {
             {error && <p className="text-red-500 text-sm mt-2">{`${error}`}</p>}
           </div>
 
-          <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center">
-              <input type="checkbox" className="mr-2" /> Remember me
-            </label>
+          <div className="flex justify-end items-center text-sm">
             <a href="#" className="text-black hover:underline">
               Forgot password?
             </a>

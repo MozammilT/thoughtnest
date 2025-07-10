@@ -108,13 +108,9 @@ function SignUp() {
             {error && <p className="text-red-500 text-sm mt-2">{`${error}`}</p>}
           </div>
 
-          <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" />
-              Remember me
-            </label>
-            <a href="#" className="text-black">
-              Forgot password
+          <div className="flex justify-end items-center text-sm">
+            <a href="#" className="text-black hover:underline">
+              Forgot password?
             </a>
           </div>
 
