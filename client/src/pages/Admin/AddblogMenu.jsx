@@ -81,22 +81,22 @@ export function AddblogMenu() {
   };
 
   const generateContentHandler = async () => {
-    // if (!title) return toast.error("Please enter a title");
+    if (!title) return toast.error("Please enter a title");
     try {
       setLoading(true);
-      // const { data } = await axios.post("/api/blog/generate", {
-      //   prompt: title,
-      // });
-      // if (data.success) {
-      //   quillRef.current.root.innerHTML = parse(data.content);
-      // } else {
-      //   toast.error(data.message);
-      // }
+      const { data } = await axios.post("/api/blog/generate", {
+        prompt: title,
+      });
+      if (data.success) {
+        quillRef.current.root.innerHTML = parse(data.content);
+      } else {
+        toast.error(data.message);
+      }
     } catch (err) {
       console.log(err);
       toast.error(err.message);
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   };
 
@@ -165,9 +165,12 @@ export function AddblogMenu() {
           className="w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded"
         />
         <p className="mt-4">Blog Description</p>
-        <div className="max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative">
+        <div className="max-w-lg pb-16 sm:pb-10 pt-2 relative">
           <div className="relative">
-            <div ref={editorRef} className="min-h-[200px]" />
+            <div
+              ref={editorRef}
+              className="min-h-[200px] max-h-[500px] overflow-y-auto rounded border border-gray-300"
+            />
             {loading && (
               <div className="absolute top-[42px] bottom-0 left-0 right-0 flex items-center justify-center bg-black/5 z-10">
                 <div className="w-8 h-8 rounded-full border-2 border-t-white animate-spin" />

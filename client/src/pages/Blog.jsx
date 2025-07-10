@@ -155,7 +155,7 @@ function Blog() {
                   value={content}
                   placeholder="Comment"
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded outline-none h-48"
+                  className="w-full p-2 border border-gray-300 rounded outline-none h-30"
                 />
 
                 <button
