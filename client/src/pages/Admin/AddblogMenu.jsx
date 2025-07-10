@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAppContext } from "../../context/AppContext.jsx";
+import { toast } from "react-hot-toast";
+import { parse } from "marked";
 
 export function SelectDemo({ category, setCategory }) {
   return (
@@ -39,6 +41,7 @@ export function AddblogMenu() {
   const [description, setDescription] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
   const { axios, fetchBlogs } = useAppContext();
 
@@ -74,6 +77,26 @@ export function AddblogMenu() {
       }
     } catch (err) {
       console.log("[submitHabndler] error when submitting the blog: ", err);
+    }
+  };
+
+  const generateContentHandler = async () => {
+    // if (!title) return toast.error("Please enter a title");
+    try {
+      setLoading(true);
+      // const { data } = await axios.post("/api/blog/generate", {
+      //   prompt: title,
+      // });
+      // if (data.success) {
+      //   quillRef.current.root.innerHTML = parse(data.content);
+      // } else {
+      //   toast.error(data.message);
+      // }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    } finally {
+      setLoading(true);
     }
   };
 
@@ -143,12 +166,21 @@ export function AddblogMenu() {
         />
         <p className="mt-4">Blog Description</p>
         <div className="max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative">
-          <div ref={editorRef}></div>
+          <div className="relative">
+            <div ref={editorRef} className="min-h-[200px]" />
+            {loading && (
+              <div className="absolute top-[42px] bottom-0 left-0 right-0 flex items-center justify-center bg-black/5 z-10">
+                <div className="w-8 h-8 rounded-full border-2 border-t-white animate-spin" />
+              </div>
+            )}
+          </div>
           <button
             type="button"
-            className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 py-1.5 px-4 rounded cursor-pointer hover:underline"
+            disabled={loading}
+            onClick={generateContentHandler}
+            className="absolute bottom-1 right-2 ml-2 text-sm text-white bg-black/70 py-1.5 px-4 rounded cursor-pointer hover:underline"
           >
-            Generate with AI
+            {loading ? "Generating" : "Generate with AI"}
           </button>
         </div>
         <p className="mt-4 mb-4">Blog Category</p>
