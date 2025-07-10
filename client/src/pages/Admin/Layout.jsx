@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import Loading from "../../components/Loading.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
@@ -70,7 +70,7 @@ export function SidebarDemo() {
               <SidebarLink
                 link={{
                   label: username || "admin",
-                  href: "#",
+                  path: "#",
                   icon: (
                     <img
                       src={`https://ui-avatars.com/api/?name=${
@@ -96,8 +96,8 @@ export function SidebarDemo() {
 }
 export const Logo = () => {
   return (
-    <a
-      href="#"
+    <Link
+      to="/"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
     >
       <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-primary" />
@@ -108,16 +108,16 @@ export const Logo = () => {
       >
         Admin Page
       </motion.span>
-    </a>
+    </Link>
   );
 };
 export const LogoIcon = () => {
   return (
-    <a
-      href="#"
+    <Link
+      to="/"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
     >
       <div className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-primary" />
-    </a>
+    </Link>
   );
 };
