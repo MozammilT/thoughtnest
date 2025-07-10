@@ -8,6 +8,7 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const registerRequestHandler = async (e) => {
@@ -86,17 +87,24 @@ function SignUp() {
             >
               Password
             </label>
-            <input
-              required
-              type="password"
-              name="password"
-              id="password"
-              autoComplete="true"
-              value={password}
-              placeholder="**********"
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
-            />
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="**********"
+                required
+                autoComplete="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-3  border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+              />
+              <img
+                onClick={() => setShowPassword((prev) => !prev)}
+                src={showPassword ? "eye_show.svg" : "eye_hide.svg"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer opacity-70 hover:opacity-100 duration-300 transition-all"
+              />
+            </div>
             {error && <p className="text-red-500 text-sm mt-2">{`${error}`}</p>}
           </div>
 
