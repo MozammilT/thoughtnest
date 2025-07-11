@@ -1,4 +1,3 @@
-// context/ThemeContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext();
@@ -7,26 +6,12 @@ export const ThemeProvider = ({ children }) => {
   const getInitialTheme = () => {
     if (typeof localStorage !== "undefined") {
       const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) return savedTheme;
+      return savedTheme || "light"; // ✅ default to light
     }
-
-    // fallback to system preference
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    return prefersDark ? "dark" : "light";
+    return "light";
   };
 
   const [theme, setTheme] = useState(getInitialTheme);
-
-  useEffect(() => {
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    const savedTheme = localStorage.getItem("theme");
-    const currentTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
-    setTheme(currentTheme);
-  }, []);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
