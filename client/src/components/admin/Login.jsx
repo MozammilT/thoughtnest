@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import { useAppContext } from "../../context/AppContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import axios from "axios";
 
 function Login() {
@@ -10,6 +11,9 @@ function Login() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { fetchAdmin } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
+  8;
   const navigate = useNavigate();
 
   const loginRequestHandler = async (e) => {
@@ -33,13 +37,29 @@ function Login() {
   };
 
   return (
-    <div className="flex h-screen flex-col md:flex-row bg-gray-100">
+    <div
+      className={`flex h-screen flex-col md:flex-row ${
+        darkMode ? "bg-dark" : "bg-gray-100"
+      }`}
+    >
       {/* Left Section */}
-      <div className="flex flex-1 flex-col justify-center items-center p-6 sm:p-10 bg-gray-100">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-gray-800 text-center">
+      <div
+        className={`flex flex-1 flex-col justify-center items-center p-6 sm:p-10  ${
+          darkMode ? "bg-dark" : "bg-gray-100"
+        }`}
+      >
+        <h1
+          className={`text-3xl sm:text-4xl font-bold mb-2 text-center ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           WELCOME BACK
         </h1>
-        <p className="text-gray-600 mb-8 text-center">
+        <p
+          className={`mb-8 text-center ${
+            darkMode ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
           Please enter your details.
         </p>
 
@@ -51,7 +71,9 @@ function Login() {
           <div>
             <label
               htmlFor="username"
-              className="block mb-2 font-medium text-gray-700"
+              className={`block mb-2 font-medium ${
+                darkMode ? "text-gray-400" : "text-gray-700"
+              }`}
             >
               Username or Email
             </label>
@@ -64,14 +86,18 @@ function Login() {
               required
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+              className={`w-full p-3 border rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 ${
+                darkMode ? "border-gray-500" : "border-gray-300"
+              }`}
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              className="block mb-2 font-medium text-gray-700"
+              className={`block mb-2 font-medium ${
+                darkMode ? "text-gray-500" : "text-gray-700"
+              }`}
             >
               Password
             </label>
@@ -85,7 +111,9 @@ function Login() {
                 autoComplete="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3  border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                className={`w-full p-3  border rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 ${
+                  darkMode ? "border-gray-500" : "border-gray-300"
+                }`}
               />
               <img
                 onClick={() => setShowPassword((prev) => !prev)}
@@ -97,7 +125,12 @@ function Login() {
           </div>
 
           <div className="flex justify-end items-center text-sm">
-            <a href="#" className="text-black hover:underline">
+            <a
+              href="#"
+              className={`hover:underline ${
+                darkMode ? "text-gray-400" : "text-black"
+              }`}
+            >
               Forgot password?
             </a>
           </div>
@@ -112,7 +145,11 @@ function Login() {
 
         <a
           href="/auth/google"
-          className="flex items-center justify-center gap-2 w-full max-w-md border border-gray-300 p-3 rounded-lg mt-4 hover:bg-gray-300 text-gray-700 transition"
+          className={`flex items-center justify-center gap-2 w-full max-w-md border border-gray-300 p-3 rounded-lg mt-4 transition ${
+            darkMode
+              ? "bg-gray-300 hover:bg-gray-400 text-gray-900"
+              : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+          }`}
         >
           <IconBrandGoogleFilled size={20} /> Login with Google
         </a>

@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
-import { useAppContext } from "../../context/AppContext.jsx";
 import moment from "moment";
 import { toast } from "react-hot-toast";
 import { AlertDialogDemo } from "../../components/AlertDialogue.jsx";
+import { useAppContext } from "../../context/AppContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 function CommentsMenu() {
   const [comments, setComments] = useState([]);
   const [filter, setFilter] = useState("Approved");
   const { axios } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const fetchComents = async () => {
     try {
@@ -69,25 +72,45 @@ function CommentsMenu() {
   }, []);
 
   return (
-    <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-yellow-50/30">
+    <div
+      className={`flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 ${
+        darkMode ? "bg-[#171717]" : "bg-yellow-50/30"
+      }`}
+    >
       <div className="flex justify-between items-center max-w-3xl">
-        <div className="flex items-center gap-1 text-gray-600">
-          <img src="/comments_icon.svg" className="w-15"/>
+        <div
+          className={`flex items-center gap-1 text-lg font-semibold ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}
+        >
+          <img src="/comments_icon.svg" className="w-15" />
           <h1>Comments</h1>
         </div>
         <div className="flex gap-4">
           <button
             onClick={() => setFilter("Approved")}
-            className={`shadow-md border rounded-full px-4 py-1 cursor-pointer text-xs ${
-              filter === "Approved" ? "text-primary" : "text-gray-700"
+            className={`border rounded-full px-4 py-1 cursor-pointer text-xs ${
+              darkMode ? "shadow-md shadow-neutral-50/10" : "shadow-md"
+            } ${
+              filter === "Approved"
+                ? "text-primary"
+                : darkMode
+                ? "text-gray-400"
+                : "text-gray-700"
             }`}
           >
             Approved
           </button>
           <button
             onClick={() => setFilter("Not Approved")}
-            className={`shadow-md border rounded-full px-4 py-1 cursor-pointer text-xs ${
-              filter === "Not Approved" ? "text-primary" : "text-gray-700"
+            className={`border rounded-full px-4 py-1 cursor-pointer text-xs ${
+              darkMode ? "shadow-md shadow-neutral-50/10" : "shadow-md"
+            } ${
+              filter === "Not Approved"
+                ? "text-primary"
+                : darkMode
+                ? "text-gray-400"
+                : "text-gray-700"
             }`}
           >
             Not Approved
@@ -95,9 +118,13 @@ function CommentsMenu() {
         </div>
       </div>
 
-      <div className="relative h-4/5 max-w-4xl overflow-x-auto mt-4 bg-white shadow rounded-lg scrollbar-hide">
+      <div className="relative max-w-4xl overflow-x-auto mt-4 shadow rounded-lg scrollbar-hide">
         <table className="w-full text-sm text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase text-left border-b border-gray-300">
+          <thead
+            className={`text-xs uppercase text-left border-b border-gray-300 ${
+              darkMode ? "bg-[#111827] text-gray-300" : "bg-white text-gray-700"
+            }`}
+          >
             <tr>
               <th scope="col" className="px-6 py-3">
                 Blog title & Comment
@@ -110,23 +137,45 @@ function CommentsMenu() {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={`${darkMode ? "bg-[#3d3d3d]" : "bg-white"}`}>
             {comments
               .filter((item) => {
                 if (filter === "Approved") return item.isApproved === true;
                 return item.isApproved === false;
               })
               .map((comment, idx) => (
-                <tr key={idx} className="border-gray-300 border-b">
-                  <td className="px-6 py-4">
-                    <b className="font-medium text-gray-600">Blog</b> :
-                    {comment.blog.title} <br /> <br />
-                    <b className="font-medium text-gray-600">Name</b> :
-                    {comment.name} <br />
-                    <b className="font-medium text-gray-600">Comment</b> :
-                    {comment.content}
+                <tr key={idx} className="border-gray-300 border-t">
+                  <td className={`px-6 py-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                    <b
+                      className={`font-medium ${
+                        darkMode ? "text-gray-100" : "text-gray-600"
+                      }`}
+                    >
+                      Blog
+                    </b>
+                    : {comment.blog.title} <br /> <br />
+                    <b
+                      className={`font-medium ${
+                        darkMode ? "text-gray-100" : "text-gray-600"
+                      }`}
+                    >
+                      Name
+                    </b>
+                    : {comment.name} <br />
+                    <b
+                      className={`font-medium ${
+                        darkMode ? "text-gray-100" : "text-gray-600"
+                      }`}
+                    >
+                      Comment
+                    </b>
+                    : {comment.content}
                   </td>
-                  <td className="px-6 py-4 max-sm:hidden">
+                  <td
+                    className={`px-6 py-4 max-sm:hidden ${
+                      darkMode ? "text-gray-300" : "text-gray-600"
+                    }`}
+                  >
                     {moment(comment.blog.createdAt).format("MMMM Do, YYYY")}
                   </td>
                   <td className="px-6 py-4">

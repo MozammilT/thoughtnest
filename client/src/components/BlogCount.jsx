@@ -1,11 +1,13 @@
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
-import { blog_data } from "../constants/assets.js";
 import { useAppContext } from "../context/AppContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 function BlogCount() {
   const { axios } = useAppContext();
   const [blogCount, setBlogCount] = useState(0);
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const getBlogCount = async () => {
     try {
@@ -31,7 +33,11 @@ function BlogCount() {
   }, [blogCount]);
 
   return (
-    <p className="text-base text-gray-600 mb-2">
+    <p
+      className={`text-base mb-2 ${
+        darkMode ? "text-gray-300" : "text-gray-600"
+      }`}
+    >
       Published
       <motion.strong className="w-[25px] inline-block text-center">
         {rounded}

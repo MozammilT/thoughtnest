@@ -3,6 +3,7 @@ import { dashboard_data } from "../../constants/assets.js";
 import TableItem from "@/components/admin/TableItem.jsx";
 import { toast } from "react-hot-toast";
 import { useAppContext } from "../../context/AppContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 function DashboardMenu() {
   const [dashboardData, setDashboardData] = useState({
@@ -11,7 +12,10 @@ function DashboardMenu() {
     drafts: 0,
     recentBlogs: [],
   });
+
   const { axios } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const fetchDashboard = async () => {
     try {
@@ -21,7 +25,7 @@ function DashboardMenu() {
         : toast.error(data.message);
     } catch (err) {
       toast.error(err.message);
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -30,71 +34,144 @@ function DashboardMenu() {
   }, []);
 
   return (
-    <div className="flex-1 p-4 md:p-10 bg-yellow-50/30">
+    <div
+      className={`flex-1 p-4 md:p-10 ${
+        darkMode ? "bg-[#171717]" : "bg-yellow-50/30"
+      }`}
+    >
+      {/* Top Stats Cards */}
       <div className="flex flex-wrap gap-4">
-        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-50 pl-3 py-2">
-          <img src="/dashboard_icon_1.svg" alt="blog-icon" className="h-15" />
+        {/* Blogs */}
+        <div
+          className={`flex items-center border shadow rounded-xl gap-4 cursor-pointer hover:scale-105 transition-transform min-w-50 pl-4 py-3 ${
+            darkMode
+              ? "border-gray-700 bg-[#111827]"
+              : "border-gray-300 bg-white"
+          }`}
+        >
+          <img
+            src="/dashboard_icon_1.svg"
+            alt="blog-icon"
+            className="h-12 w-12"
+          />
           <div className="pr-5 pl-2">
-            <p className="text-gray-800 text-xl">{dashboardData.blogs}</p>
-            <p className="text-gray-600 text-base font-light">Blogs</p>
+            <p
+              className={`text-2xl font-medium ${
+                darkMode ? "text-gray-100" : "text-gray-700"
+              }`}
+            >
+              {dashboardData.blogs}
+            </p>
+            <p
+              className={`text-sm font-medium tracking-wide ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              Blogs
+            </p>
           </div>
         </div>
-        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-45 pl-3 py-2">
+
+        {/* Comments */}
+        <div
+          className={`flex items-center border shadow rounded-xl gap-4 cursor-pointer hover:scale-105 transition-transform min-w-45 pl-4 py-3 ${
+            darkMode
+              ? "border-gray-700 bg-[#111827]"
+              : "border-gray-300 bg-white"
+          }`}
+        >
           <img
             src="/dashboard_icon_2.svg"
             alt="comments-icon"
-            className="h-15"
+            className="h-12 w-12"
           />
           <div className="pr-5 pl-2">
-            <p className="text-gray-800 text-xl">{dashboardData.comments}</p>
-            <p className="text-gray-600 text-base font-light">Comments</p>
+            <p
+              className={`text-2xl font-medium ${
+                darkMode ? "text-gray-100" : "text-gray-700"
+              }`}
+            >
+              {dashboardData.comments}
+            </p>
+            <p
+              className={`text-sm font-medium tracking-wide ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              Comments
+            </p>
           </div>
         </div>
-        <div className="flex items-center border border-gray-300 shadow rounded gap-4 bg-white cursor-pointer hover:scale-105 transition-all min-w-45 pl-3 py-2">
-          <img src="/dashboard_icon_3.svg" alt="drafts-icon" className="h-15" />
+
+        {/* Drafts */}
+        <div
+          className={`flex items-center border shadow rounded-xl gap-4 cursor-pointer hover:scale-105 transition-transform min-w-45 pl-4 py-3 ${
+            darkMode
+              ? "border-gray-700 bg-[#111827]"
+              : "border-gray-300 bg-white"
+          }`}
+        >
+          <img
+            src="/dashboard_icon_3.svg"
+            alt="drafts-icon"
+            className="h-12 w-12"
+          />
           <div className="pr-5 pl-2">
-            <p className="text-gray-800 text-xl">{dashboardData.drafts}</p>
-            <p className="text-gray-600 text-base font-light">Drafts</p>
+            <p
+              className={`text-2xl font-medium ${
+                darkMode ? "text-gray-100" : "text-gray-700"
+              }`}
+            >
+              {dashboardData.drafts}
+            </p>
+            <p
+              className={`text-sm font-medium tracking-wide ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              Drafts
+            </p>
           </div>
         </div>
       </div>
 
+      {/* Latest Blogs Table */}
       <div>
-        <div className="flex m-4 mt-15 items-center gap-3 text-gray-600">
-          <img src="/dashboard_icon_4.svg" />
-          <p>Latest Blogs</p>
+        <div
+          className={`flex m-4 mt-10 items-center gap-3 ${
+            darkMode ? "text-gray-200" : "text-gray-600"
+          }`}
+        >
+          <img src="/dashboard_icon_4.svg" alt="latest-blogs-icon" />
+          <p className="text-lg font-semibold">Latest Blogs</p>
         </div>
 
-        <div className="relative max-w-4xl overflow-x-auto shadow rounded-lg scrollbar-hide bg-white">
+        <div
+          className={`relative max-w-4xl overflow-x-auto shadow rounded-lg scrollbar-hide ${
+            darkMode ? "bg-[#111827]" : "bg-white"
+          }`}
+        >
           <table className="w-full text-sm text-gray-500">
-            <thead className="text-xs text-gray-600 text-left uppercase">
+            <thead
+              className={`text-xs text-left uppercase ${
+                darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
               <tr>
-                <th scope="col" className="px-2 py-4 xl:px-6">
-                  #
-                </th>
-                <th scope="col" className="px-2 py-4">
-                  blog title
-                </th>
-                <th scope="col" className="px-2 py-4">
-                  Category
-                </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden">
-                  date
-                </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden">
-                  status
-                </th>
-                <th scope="col" className="px-2 py-4">
-                  actions
-                </th>
+                <th className="px-2 py-4 xl:px-6">#</th>
+                <th className="px-2 py-4">Blog Title</th>
+                <th className="px-2 py-4">Category</th>
+                <th className="px-2 py-4 max-sm:hidden">Date</th>
+                <th className="px-2 py-4 max-sm:hidden">Status</th>
+                <th className="px-2 py-4">Actions</th>
               </tr>
             </thead>
 
             <tbody>
               {dashboardData.recentBlogs.map((blog, idx) => (
                 <TableItem
-                  blog={blog}
                   key={idx + 1}
+                  blog={blog}
                   index={idx + 1}
                   fetchBlogs={fetchDashboard}
                   isAlternate={idx % 2 === 0}

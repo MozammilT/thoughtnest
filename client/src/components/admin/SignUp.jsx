@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import axios from "axios";
 
 function SignUp() {
@@ -9,6 +10,8 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
   const navigate = useNavigate();
 
   const registerRequestHandler = async (e) => {
@@ -30,12 +33,26 @@ function SignUp() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="flex flex-1 flex-col justify-center items-center p-10 bg-gray-100">
-        <h1 className="text-4xl font-bold mb-2 text-gray-700">
+    <div className={`flex h-screen ${darkMode ? "bg-dark" : "bg-gray-100"}`}>
+      <div
+        className={`flex flex-1 flex-col justify-center items-center p-10 ${
+          darkMode ? "bg-dark" : "bg-gray-100"
+        }`}
+      >
+        <h1
+          className={`text-4xl font-bold mb-2 ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           WELCOME to <span className="text-primary">ThoughtNest</span>
         </h1>
-        <p className="text-gray-600 mb-8 text-lg">Start your Journey with us</p>
+        <p
+          className={`mb-8 text-lg ${
+            darkMode ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
+          Start your Journey with us
+        </p>
 
         <form
           onSubmit={registerRequestHandler}
@@ -45,7 +62,9 @@ function SignUp() {
           <div>
             <label
               htmlFor="username"
-              className="block mb-2 font-semibold text-gray-700"
+              className={`block mb-2 font-semibold ${
+                darkMode ? "text-gray-400" : "text-gray-700"
+              }`}
             >
               Username
             </label>
@@ -57,14 +76,18 @@ function SignUp() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
-              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+              className={`w-full p-3 border rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 ${
+                darkMode ? "border-gray-500" : "border-gray-300"
+              }`}
             />
           </div>
 
           <div>
             <label
               htmlFor="email"
-              className="block mb-2 font-semibold text-gray-700"
+              className={`block mb-2 font-semibold ${
+                darkMode ? "text-gray-400" : "text-gray-700"
+              }`}
             >
               Email
             </label>
@@ -76,14 +99,18 @@ function SignUp() {
               value={email}
               placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+              className={`w-full p-3 border rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 ${
+                darkMode ? "border-gray-500" : "border-gray-300"
+              }`}
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              className="block mb-2 font-semibold text-gray-700"
+              className={`block mb-2 font-semibold  ${
+                darkMode ? "text-gray-400" : "text-gray-700"
+              }`}
             >
               Password
             </label>
@@ -97,7 +124,9 @@ function SignUp() {
                 autoComplete="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3  border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                className={`w-full p-3 border rounded-lg text-base focus:outline-none focus:ring-offset-0 focus:shadow-none focus:ring-2 focus:ring-primary/50 transition-all duration-200 ${
+                  darkMode ? "border-gray-500" : "border-gray-300"
+                }`}
               />
               <img
                 onClick={() => setShowPassword((prev) => !prev)}
@@ -109,7 +138,12 @@ function SignUp() {
           </div>
 
           <div className="flex justify-end items-center text-sm">
-            <a href="#" className="text-black hover:underline">
+            <a
+              href="#"
+              className={`hover:underline ${
+                darkMode ? "text-gray-400" : "text-black"
+              }`}
+            >
               Forgot password?
             </a>
           </div>
@@ -124,7 +158,11 @@ function SignUp() {
 
         <a
           href="/auth/google"
-          className="flex items-center justify-center gap-3 w-full max-w-sm border border-gray-300 rounded-lg p-3 mt-4 bg-white text-gray-700 text-base"
+          className={`flex items-center justify-center gap-3 w-full max-w-sm border border-gray-300 rounded-lg p-3 mt-4 text-base ${
+            darkMode
+              ? "bg-gray-300 hover:bg-gray-400 text-gray-900"
+              : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+          }`}
         >
           <IconBrandGoogleFilled size={20} />
           Sign up with Google

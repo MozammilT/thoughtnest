@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { blog_data, comments_data } from "../constants/assets.js";
 import moment from "moment";
 import Loading from "../components/Loading.jsx";
 import Footer from "../components/Footer.jsx";
 import { useAppContext } from "../context/AppContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 import { toast } from "react-hot-toast";
 
 function Blog() {
@@ -16,6 +16,8 @@ function Blog() {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const { axios } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const fetchBlogData = async () => {
     try {
@@ -56,7 +58,7 @@ function Blog() {
         toast.success(data.message);
         fetchComments();
         setContent("");
-        setName("")
+        setName("");
       } else {
         toast.error(data.message);
       }
@@ -90,10 +92,18 @@ function Blog() {
               <p className="text-primary font-medium my-5">
                 Published on {moment(blogData.createdAt).format("MMMM Do YYYY")}
               </p>
-              <h1 className="text-gray-600 text-2xl sm:text-5xl font-semibold max-w-2xl my-5 mx-auto">
+              <h1
+                className={`text-2xl sm:text-5xl font-semibold max-w-2xl my-5 mx-auto ${
+                  darkMode ? "text-gray-200" : "text-gray-600"
+                }`}
+              >
                 {blogData.title}
               </h1>
-              <p className="text-gray-600 text-xl my-5 truncate max-w-lg mx-auto">
+              <p
+                className={`text-xl my-5 truncate max-w-lg mx-auto ${
+                  darkMode ? "text-gray-100" : "text-gray-600"
+                }`}
+              >
                 {blogData.subTitle}
               </p>
               <span className="text-primary inline-block bg-primary/10 rounded-full px-4 py-1.5 border my-4 text-base font-medium">
@@ -111,12 +121,20 @@ function Blog() {
               ></div>
 
               <div className="mt-14 mb-10 max-w-3xl mx-auto">
-                <p className="text-black font-semibold text-lg mb-5">{`Comments (${comments.length})`}</p>
+                <p
+                  className={`font-semibold text-lg mb-5 ${
+                    darkMode ? "text-gray-300" : "text-black"
+                  }`}
+                >{`Comments (${comments.length})`}</p>
                 <div className="flex flex-col gap-4">
                   {comments.map((comment, index) => (
                     <div
                       key={index}
-                      className="relative bg-primary/2 border border-primary/5 max-w-xl p-4 rounded text-gray-600"
+                      className={`relative  border  max-w-xl p-4 rounded ${
+                        darkMode
+                          ? "bg-primary/15 border-primary/20 text-gray-300"
+                          : "bg-primary/2 border-primary/5 text-gray-600"
+                      }`}
                     >
                       <div className="flex items-center mb-2 gap-3">
                         <img src="/user_icon.svg" className="w-8" />
@@ -135,7 +153,11 @@ function Blog() {
             </div>
 
             <div className="max-w-2xl mx-auto">
-              <p className="text-black font-semibold text-lg mb-5">
+              <p
+                className={`font-semibold text-lg mb-5 ${
+                  darkMode ? "text-gray-200" : "text-black"
+                }`}
+              >
                 Add your comment
               </p>
               <form
@@ -148,14 +170,18 @@ function Blog() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your Name"
-                  className="w-full p-2 border border-gray-300 rounded outline-none mb-5"
+                  className={`w-full p-2 border rounded outline-none mb-5 ${
+                    darkMode ? "border-gray-700" : "border-gray-300"
+                  }`}
                 />
                 <textarea
                   required
                   value={content}
                   placeholder="Comment"
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded outline-none h-30"
+                  className={`w-full p-2 border rounded outline-none h-30 ${
+                    darkMode ? "border-gray-700" : "border-gray-300"
+                  }`}
                 />
 
                 <button
@@ -167,7 +193,11 @@ function Blog() {
               </form>
 
               <div>
-                <p className="text-gray-700 font-medium text-lg mb-5">
+                <p
+                  className={`font-medium text-lg mb-5 ${
+                    darkMode ? "text-gray-400" : "text-gray-700"
+                  }`}
+                >
                   Share this article on social media
                 </p>
                 <div className="flex gap-3 mb-15">

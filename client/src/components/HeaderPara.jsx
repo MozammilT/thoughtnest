@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 import { animate, stagger } from "motion";
 import { splitText } from "motion-plus";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 function HeaderPara() {
   const pRef = useRef(null);
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   useEffect(() => {
     document.fonts.ready.then(() => {
@@ -20,7 +23,12 @@ function HeaderPara() {
   }, []);
 
   return (
-    <p ref={pRef} className="text-gray-500 my-6 sm:my-8 max-w-2xl m-auto max-sm:text-base text-lg">
+    <p
+      ref={pRef}
+      className={`my-6 sm:my-8 max-w-2xl m-auto max-sm:text-base text-lg ${
+        darkMode ? "text-gray-300" : "text-gray-500"
+      }`}
+    >
       This is your space to think out loud, to share what matters, and to write
       without filters. Whether it's one word or a thousand, your story starts
       right here.

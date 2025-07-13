@@ -1,17 +1,26 @@
 import moment from "moment";
-import { useAppContext } from "../../context/AppContext.jsx";
 import { toast } from "react-hot-toast";
 import { AlertDialogDemo } from "../AlertDialogue.jsx";
+import { useAppContext } from "../../context/AppContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 function TableItem({ blog, fetchBlogs, index, isAlternate }) {
   const { title, createdAt, category, _id } = blog;
   const { axios } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const deleteBlog = async () => {
     try {
       const { data } = await axios.delete(`/api/blog/delete/${_id}`);
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        });
         await fetchBlogs();
       } else {
         toast.error(data.message);
@@ -42,8 +51,14 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
   return (
     <tr
       className={`border-y border-gray-300 ${
-        isAlternate ? "bg-gray-50" : "bg-white"
-      }`}
+        darkMode
+          ? isAlternate
+            ? "bg-gray-800"
+            : "bg-dark"
+          : isAlternate
+          ? "bg-gray-100"
+          : "bg-white"
+      } ${darkMode ? "text-gray-300" : "text-gray-600"}`}
     >
       <th className="px-2 py-4">{index}</th>
       <th className="px-2 py-4 text-left font-medium">{title}</th>
@@ -63,7 +78,9 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
       <th className="px-2 py-4 flex text-xs gap-3">
         <button
           onClick={togglePublish}
-          title={`${blog.isPublished ? "Unpublish comment" : "Publish comment"}`}
+          title={`${
+            blog.isPublished ? "Unpublish comment" : "Publish comment"
+          }`}
           className={`px-2 py-1 rounded text-xs font-medium cursor-pointer min-w-20 ${
             blog.isPublished
               ? "bg-red-100 text-red-600 hover:bg-red-200"

@@ -13,8 +13,12 @@ import { Outlet, Link } from "react-router-dom";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import Loading from "../../components/Loading.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 export function SidebarDemo() {
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
+
   const links = [
     {
       label: "Dashboard",
@@ -53,7 +57,9 @@ export function SidebarDemo() {
       <AdminNavbar />
       <div
         className={cn(
-          "mx-auto flex w-full max-w-screen flex-1 flex-col overflow-hidden border border-neutral-200 bg-gray-100 md:flex-row h-[90vh]"
+          `mx-auto flex w-full max-w-screen flex-1 flex-col overflow-hidden border bg-gray-100 md:flex-row h-[90vh] ${
+            darkMode ? "border-dark" : "border-neutral-200"
+          }`
         )}
       >
         <Sidebar open={open} setOpen={setOpen} animate={false}>
@@ -87,7 +93,11 @@ export function SidebarDemo() {
             </div>
           </SidebarBody>
         </Sidebar>
-        <div className="flex flex-1 flex-col bg-white border-l border-neutral-200">
+        <div
+          className={`flex flex-1 flex-col bg-white border-l ${
+            darkMode ? "border-black" : "border-neutral-200"
+          }`}
+        >
           <Outlet />
         </div>
       </div>
@@ -95,6 +105,9 @@ export function SidebarDemo() {
   );
 }
 export const Logo = () => {
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
+
   return (
     <Link
       to="/"
@@ -104,7 +117,9 @@ export const Logo = () => {
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-gray-700"
+        className={`font-medium whitespace-pre ${
+          darkMode ? "text-gray-300" : "text-gray-700"
+        }`}
       >
         Admin Page
       </motion.span>

@@ -3,10 +3,13 @@ import BlogCount from "./BlogCount";
 import HeaderPara from "./HeaderPara";
 import Heading from "./Heading";
 import { useAppContext } from "../context/AppContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 function Header() {
   const { setInputs, inputs } = useAppContext();
   const inputRef = useRef();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -32,7 +35,9 @@ function Header() {
 
       <form
         onSubmit={submitHandler}
-        className="flex mx-auto items-center border pl-4 gap-2 bg-white border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md w-full"
+        className={`flex mx-auto items-center border pl-4 gap-2 border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md w-full ${
+          darkMode ? "bg-gray-200" : "bg-white"
+        }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +53,9 @@ function Header() {
           type="text"
           ref={inputRef}
           placeholder="Search for blogs"
-          className="w-full h-full outline-none text-sm text-gray-500"
+          className={`w-full h-full outline-none text-sm  ${
+            darkMode ? "text-gray-950" : "text-gray-500"
+          }`}
         />
         <button
           type="submit"
@@ -61,7 +68,9 @@ function Header() {
         {inputs && (
           <button
             onClick={clearSearch}
-            className="border border-gray-400 font-light text-sm text-gray-600 py-0.5 px-3 rounded-sm shadow-custom-sm cursor-pointer"
+            className={`border border-gray-400 font-light text-sm py-0.5 px-3 rounded-sm shadow-custom-sm cursor-pointer ${
+              darkMode ? "text-gray-200" : "text-gray-600"
+            }`}
           >
             Clear
           </button>

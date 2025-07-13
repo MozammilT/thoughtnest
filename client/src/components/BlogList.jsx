@@ -3,10 +3,13 @@ import { blogCategories, blog_data } from "../constants/assets";
 import { motion } from "motion/react";
 import BlogCard from "./BlogCard";
 import { useAppContext } from "../context/AppContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 function BlogList() {
   const [menu, setMenu] = useState("All");
   const { blogs, inputs } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const filterBlogs = () => {
     if (inputs === "") {
@@ -31,7 +34,10 @@ function BlogList() {
             <motion.button
               onClick={() => setMenu(blog)}
               className="text-base cursor-pointer px-4 py-0.5"
-              animate={{ color: menu === blog ? "#fff" : "#374151" }}
+              animate={{
+                color:
+                  menu === blog ? "#fff" : darkMode ? "#d1d5dc" : "#374151",
+              }}
               transition={{ type: "spring", stiffness: 500, damping: 40 }}
             >
               {blog}
@@ -46,10 +52,13 @@ function BlogList() {
           </div>
         ))}
       </div>
-      {/* Blog cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-24 mx-8 sm:mx-16 xl:mx-40">
         {filteredBlogs.length === 0 ? (
-          <p className="text-center col-span-full text-gray-500 text-lg">
+          <p
+            className={`text-center col-span-full text-lg ${
+              darkMode ? "text-gray-300" : "text-gray-500"
+            }`}
+          >
             No content found
           </p>
         ) : (

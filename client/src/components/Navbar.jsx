@@ -9,7 +9,11 @@ function Navbar() {
   const darkMode = theme === "dark";
 
   return (
-    <nav className="flex justify-between items-center py-5 mx-8 sm:mx-20 xl:mx-32 bg-white dark:bg-[#030712]/1">
+    <nav
+      className={`flex justify-between items-center py-5 mx-8 sm:mx-20 xl:mx-32 ${
+        darkMode ? "bg-[#030712]/1" : " bg-white"
+      }`}
+    >
       <img
         onClick={() => navigate("/")}
         className="w-45 h-15 cursor-pointer"
@@ -19,7 +23,9 @@ function Navbar() {
       <div className="flex items-center gap-4">
         <button
           onClick={toggleTheme}
-          className="text-sm px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-black dark:text-white cursor-pointer"
+          className={`text-sm px-4 py-2 rounded-full text-black dark:text-white cursor-pointer ${
+            darkMode ? "bg-gray-700" : "bg-gray-200"
+          }`}
         >
           {darkMode ? "☀️" : "🌙"}
         </button>

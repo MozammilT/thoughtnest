@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAppContext } from "../../context/AppContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import { toast } from "react-hot-toast";
 import { parse } from "marked";
 
@@ -44,6 +45,8 @@ export function AddblogMenu() {
   const [loading, setLoading] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
   const { axios, fetchBlogs } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const submitHabndler = async (e) => {
     e.preventDefault();
@@ -127,9 +130,17 @@ export function AddblogMenu() {
   return (
     <form
       onSubmit={submitHabndler}
-      className="flex-1 h-full bg-yellow-50/30 text-gray-600 overflow-scroll"
+      className={`flex-1 h-full overflow-scroll ${
+        darkMode
+          ? "bg-[#171717] text-gray-300"
+          : "bg-yellow-50/30 text-gray-600"
+      }`}
     >
-      <div className="w-full max-w-3xl p-4 md:p-10 sm:m-10 shadow rounded bg-white">
+      <div
+        className={`w-full max-w-3xl p-4 md:p-10 sm:m-10 shadow rounded ${
+          darkMode ? "bg-[#414141]" : "bg-white"
+        }`}
+      >
         <p>Upload Thumbnail</p>
         <label htmlFor="image">
           <img
@@ -153,7 +164,9 @@ export function AddblogMenu() {
           type="text"
           placeholder="Enter the title"
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded"
+          className={`w-full max-w-lg mt-2 p-2 border outline-none rounded ${
+            darkMode ? "border-gray-500 text-gray-100" : "border-gray-300"
+          }`}
         />
         <p className="mt-4">Sub Title</p>
         <input
@@ -162,14 +175,18 @@ export function AddblogMenu() {
           type="text"
           placeholder="Enter the sub title"
           onChange={(e) => setSubTitle(e.target.value)}
-          className="w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded"
+          className={`w-full max-w-lg mt-2 p-2 border outline-none rounded ${
+            darkMode ? "border-gray-500 text-gray-100" : "border-gray-300"
+          }`}
         />
         <p className="mt-4">Blog Description</p>
         <div className="max-w-lg pb-16 sm:pb-10 pt-2 relative">
           <div className="relative">
             <div
               ref={editorRef}
-              className="min-h-[200px] max-h-[500px] overflow-y-auto rounded border border-gray-300"
+              className={`min-h-[200px] max-h-[500px] overflow-y-auto rounded border ${
+                darkMode ? "border-gray-500" : "border-gray-300"
+              }`}
             />
             {loading && (
               <div className="absolute top-[42px] bottom-0 left-0 right-0 flex items-center justify-center bg-black/5 z-10">

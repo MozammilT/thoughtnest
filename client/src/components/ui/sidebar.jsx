@@ -4,6 +4,7 @@ import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 const SidebarContext = createContext(undefined);
 
@@ -51,10 +52,15 @@ export const SidebarBody = (props) => {
 
 export const DesktopSidebar = ({ className, children, ...props }) => {
   const { open, setOpen, animate } = useSidebar();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
+
   return (
     <motion.div
       className={cn(
-        "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-100 w-[300px] shrink-0",
+        `h-full px-4 py-4 hidden md:flex md:flex-col w-[300px] shrink-0 ${
+          darkMode ? "bg-[#262626]" : "bg-neutral-100"
+        }`,
         className
       )}
       animate={{
@@ -115,6 +121,9 @@ export const MobileSidebar = ({ className, children, ...props }) => {
 
 export const SidebarLink = ({ link, className, ...props }) => {
   const { open, animate } = useSidebar();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
+
   return (
     <Link
       to={link.path}
@@ -130,7 +139,9 @@ export const SidebarLink = ({ link, className, ...props }) => {
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-neutral-700 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className={`text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0 ${
+          darkMode ? "text-neutral-300" : "text-neutral-700"
+        }`}
       >
         {link.label}
       </motion.span>

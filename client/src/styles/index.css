@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
 
+.dark {
+  @apply bg-white dark:bg-dark text-gray-900 dark:text-white transition-colors;
+}
+
 :root {
   --background: #f5f5f5;
 }
@@ -16,6 +20,7 @@
 @theme {
   /* --color-primary: #ef4444 */
   --color-primary: #fdc700;
+  --color-dark: #030712;
 }
 
 .bg-background {
@@ -31,11 +36,22 @@
   color: #292929;
   font-size: 18px;
 }
+.dark .rich-text p {
+  margin-bottom: 16px;
+  color: #e3e3e3;
+  font-size: 18px;
+}
 
 .rich-text h1 {
   font-size: 36px;
   font-weight: 700;
   color: #252525 !important;
+  margin: 32px 0;
+}
+.dark .rich-text h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #8b8b8b !important;
   margin: 32px 0;
 }
 
@@ -45,11 +61,23 @@
   color: #252525 !important;
   margin: 24px 0;
 }
+.dark .rich-text h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #9c9c9c !important;
+  margin: 24px 0;
+}
 
 .rich-text h3 {
   font-size: 18px;
   font-weight: 600;
   color: #333333 !important;
+  margin: 20px 0;
+}
+.dark .rich-text h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #b5b5b5 !important;
   margin: 20px 0;
 }
 
@@ -59,6 +87,12 @@
   color: #444444 !important;
   margin: 16px 0;
 }
+.dark .rich-text h4 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #d4d4d4 !important;
+  margin: 16px 0;
+}
 
 .rich-text h5 {
   font-size: 14px;
@@ -66,11 +100,23 @@
   color: #555555 !important;
   margin: 12px 0;
 }
+.dark .rich-text h5 {
+  font-size: 14px;
+  font-weight: 400;
+  color: #cbcbcb !important;
+  margin: 12px 0;
+}
 
 .rich-text h6 {
   font-size: 12px;
   font-weight: 400;
   color: #666666 !important;
+  margin: 8px 0;
+}
+.dark .rich-text h6 {
+  font-size: 12px;
+  font-weight: 400;
+  color: #e6e6e6 !important;
   margin: 8px 0;
 }
 
@@ -94,4 +140,23 @@
 
 .rich-text a {
   color: #007aff;
+}
+
+.dark .ql-editor.ql-blank::before {
+  color: #e9e9e9;
+  opacity: 0.6;
+}
+
+.dark .ql-toolbar {
+  background-color: #1c2b3f; /* Tailwind's gray-800 */
+  border-color: #374151; /* gray-700 */
+}
+
+.dark .ql-toolbar button {
+  color: #d1d5db !important; /* Tailwind gray-300 */
+  fill: #d1d5db !important;
+}
+
+.dark .ql-toolbar button:hover {
+  color: white;
 }

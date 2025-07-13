@@ -3,10 +3,13 @@ import { blog_data } from "../../constants/assets.js";
 import TableItem from "@/components/admin/TableItem.jsx";
 import { toast } from "react-hot-toast";
 import { useAppContext } from "../../context/AppContext.jsx";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 function BloglistMenu() {
   const [blog, setBlogs] = useState([]);
   const { axios } = useAppContext();
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
 
   const fetchBlogs = async () => {
     try {
@@ -22,16 +25,38 @@ function BloglistMenu() {
   }, []);
 
   return (
-    <div className="bg-yellow-50/30 min-h-screen pl-4">
-      <div className="flex m-4 mt-15 items-center gap-3 text-gray-600">
+    <div
+      className={`min-h-screen pl-4 ${
+        darkMode ? "bg-[#171717]" : "bg-yellow-50/30"
+      }`}
+    >
+      <div
+        className={`flex m-4 mt-10 items-center gap-3 ${
+          darkMode ? "text-gray-200" : "text-gray-600"
+        }`}
+      >
         <img src="/dashboard_icon_4.svg" />
         <p>All Blogs</p>
       </div>
 
-      <div className="relative max-w-4xl shadow-lg border border-gray-200 rounded-lg scrollbar-hide bg-white overflow-hidden">
+      <div
+        className={`relative max-w-4xl shadow-lg border rounded-lg scrollbar-hide overflow-hidden ${
+          darkMode ? "border-gray-900" : "border-gray-200"
+        }`}
+      >
         <div className="max-h-[450px] overflow-y-auto">
-          <table className="w-full text-sm text-gray-500">
-            <thead className="text-xs text-gray-600 text-left uppercase bg-white sticky top-0 z-10">
+          <table
+            className={`w-full text-sm ${
+              darkMode ? "text-gray-300" : "text-gray-500"
+            }`}
+          >
+            <thead
+              className={`text-xs text-left uppercase sticky top-0 z-10 ${
+                darkMode
+                  ? "bg-[#111827] text-gray-200"
+                  : "bg-white text-gray-600"
+              }`}
+            >
               <tr>
                 <th className="px-2 py-4 xl:px-6">#</th>
                 <th className="px-2 py-4">blog title</th>
