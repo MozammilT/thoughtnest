@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { dashboard_data } from "../../constants/assets.js";
 import TableItem from "@/components/admin/TableItem.jsx";
 import { toast } from "react-hot-toast";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import Loading from "../../components/Loading.jsx";
 
 function DashboardMenu() {
   const [dashboardData, setDashboardData] = useState({
@@ -13,7 +13,7 @@ function DashboardMenu() {
     recentBlogs: [],
   });
 
-  const { axios } = useAppContext();
+  const { axios, admin, navigate, loading } = useAppContext();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
 
@@ -28,10 +28,16 @@ function DashboardMenu() {
       console.error(err);
     }
   };
-
   useEffect(() => {
     fetchDashboard();
   }, []);
+
+  useEffect(() => {
+    if (!loading && !admin) {
+      navigate("/");
+    }
+  }, [admin, loading]);
+  if (loading) return <Loading />;
 
   return (
     <div
