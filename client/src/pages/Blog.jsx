@@ -137,7 +137,7 @@ function Blog() {
                   {comments.map((comment, index) => (
                     <div
                       key={index}
-                      className={`relative  border  max-w-xl p-4 rounded ${
+                      className={`relative border max-w-xl p-4 rounded ${
                         darkMode
                           ? "bg-primary/15 border-primary/20 text-gray-300"
                           : "bg-primary/2 border-primary/5 text-gray-600"
@@ -147,10 +147,10 @@ function Blog() {
                         <img src="/user_icon.svg" className="w-8" />
                         <p className="font-medium">{comment.name}</p>
                       </div>
-                      <p className="text-sm max-w-md ml-10">
+                      <p className="text-sm max-w-md ml-10 mb-4">
                         {comment.content}
                       </p>
-                      <div className="absolute right-4 bottom-3 text-sm flex items-center gap-2">
+                      <div className="absolute right-4 bottom-3 max-sm:bottom-2.5 text-sm flex items-center gap-2">
                         {moment(comment.createdAt).fromNow()}
                       </div>
                     </div>
@@ -159,7 +159,7 @@ function Blog() {
               </div>
             </div>
 
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto max-sm:mx-10">
               <p
                 className={`font-semibold text-lg mb-5 ${
                   darkMode ? "text-gray-200" : "text-black"
