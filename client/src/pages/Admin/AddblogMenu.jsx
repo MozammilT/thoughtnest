@@ -43,6 +43,7 @@ export function AddblogMenu() {
   const [subTitle, setSubTitle] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
   const { axios, fetchBlogs } = useAppContext();
   const { theme } = useTheme();
@@ -50,10 +51,8 @@ export function AddblogMenu() {
 
   const submitHabndler = async (e) => {
     e.preventDefault();
-
-    //Debug logs
-    console.log("Submit Handler Triggered");
     try {
+      setButtonLoading(true);
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
@@ -80,11 +79,21 @@ export function AddblogMenu() {
       }
     } catch (err) {
       console.log("[submitHabndler] error when submitting the blog: ", err);
+    } finally {
+      setButtonLoading(false);
     }
   };
 
   const generateContentHandler = async () => {
-    if (!title) return toast.error("Please enter a title");
+    if (!title)
+      return toast.error("Please enter a title", {
+        position: "bottom-right",
+        style: {
+          borderRadius: "50px",
+          background: "#595959",
+          color: "#fff",
+        },
+      });
     try {
       setLoading(true);
       const { data } = await axios.post("/api/blog/generate", {
@@ -189,7 +198,7 @@ export function AddblogMenu() {
               }`}
             />
             {loading && (
-              <div className="absolute top-[42px] bottom-0 left-0 right-0 flex items-center justify-center bg-black/5 z-10">
+              <div className="absolute top-[42px] bottom-0 left-0 right-0 flex items-center justify-center bg-white/30 z-10">
                 <div className="w-8 h-8 rounded-full border-2 border-t-white animate-spin" />
               </div>
             )}
@@ -216,10 +225,18 @@ export function AddblogMenu() {
           />
         </div>
         <button
+          disabled={loading}
           type="submit"
-          className="bg-primary px-4 py-1.5 mt-5 rounded text-white cursor-pointer hover:scale-105 transition-all duration-200"
+          className="bg-primary px-4 py-1.5 mt-5 rounded min-w-[120px] text-white cursor-pointer hover:scale-105 transition-all duration-200"
         >
-          Add Blog
+          {buttonLoading ? (
+            <div className="flex items-center gap-3 justify-center">
+              <div className="w-5 h-5 rounded-full border-2 border-t-primary animate-spin" />
+              <p>Adding</p>
+            </div>
+          ) : (
+            "Add Blog"
+          )}
         </button>
       </div>
     </form>
