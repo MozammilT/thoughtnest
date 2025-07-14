@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import { Menu, X } from "lucide-react";
 
 function AdminNavbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const darkMode = theme === "dark";
 
@@ -14,18 +17,33 @@ function AdminNavbar() {
         src={darkMode ? "/logo_dark1.png" : "/main.png"}
         alt="Thoughtnest-logo"
       />
-      <div className="flex items-center gap-4">
+
+      {/* Hamburger Menu Button (Mobile) */}
+      <div className="md:hidden">
+        <button onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* Right Menu Items */}
+      <div
+        className={`${menuOpen ? "flex" : "hidden"} ${
+          darkMode ? "bg-[#030712]/90 md:bg-transparent" : "bg-white"
+        } absolute md:static top-20 right-4 md:flex md:flex-row flex-col md:bg-transparent md:items-center md:gap-6 rounded-lg p-4 md:p-0 z-50 shadow-md md:shadow-none`}
+      >
         <button
-          onClick={toggleTheme}
-          className={`text-sm px-4 py-2 rounded-full text-black dark:text-white cursor-pointer ${
-            darkMode ? "bg-gray-700" : "bg-gray-200"
-          }`}
+          onClick={() => {
+            setMenuOpen(!menuOpen);
+            toggleTheme();
+          }}
+          className="text-sm px-4 py-2 rounded-full text-black dark:text-white bg-gray-200 dark:bg-gray-700 mb-2 md:mb-0"
         >
           {darkMode ? "☀️" : "🌙"}
         </button>
+
         <button
-          onClick={() => navigate("/login")}
-          className="group rounded-full bg-primary text-white flex items-center gap-2 px-6 py-2 cursor-pointer text-base"
+          onClick={() => navigate("/logout")}
+          className="group rounded-full bg-primary text-white flex items-center gap-2 px-6 py-2 text-base"
         >
           Logout
           <img
