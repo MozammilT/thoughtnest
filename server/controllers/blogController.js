@@ -195,7 +195,8 @@ export const generateContent = async (req, res) => {
   try {
     const { prompt } = req.body;
     const content = await main(
-      prompt + "Generate a blog content for this topic in simple text format"
+      prompt +
+        "Generate a blog content for this topic in simple text format and don't reply with Here's a blog post about 'the title I've given' in a simple text format:"
     );
     res.status(200).json({ success: true, content });
   } catch (err) {
