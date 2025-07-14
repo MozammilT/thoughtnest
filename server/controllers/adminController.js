@@ -279,7 +279,7 @@ export const disapproveComment = async (req, res) => {
     );
     res
       .status(200)
-      .json({ success: true, message: "Comment disapproved successfully" });
+      .json({ success: true, message: "Comment disapproved" });
   } catch (err) {
     console.log("Error in disapproveComment function: ", err);
     res.status(500).json({ success: false, message: err.message });
@@ -309,7 +309,7 @@ export const approveComment = async (req, res) => {
     );
     res
       .status(200)
-      .json({ success: true, message: "Comment approved successfully" });
+      .json({ success: true, message: "Comment approved" });
   } catch (err) {
     console.log("Error in approveComment function: ", err);
     res.status(500).json({ success: false, message: err.message });
