@@ -20,7 +20,7 @@ function Heading() {
   return (
     <h1
       className={`text-7xl max-sm:text-3xl font-semibold text-center leading-tight ${
-        darkMode ? "text-gray-200" : "text-gray-700"
+        darkMode ? "text-gray-100" : "text-gray-700"
       }`}
     >
       Your own

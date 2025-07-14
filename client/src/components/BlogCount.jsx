@@ -35,7 +35,7 @@ function BlogCount() {
   return (
     <p
       className={`text-base mb-2 ${
-        darkMode ? "text-gray-300" : "text-gray-600"
+        darkMode ? "text-gray-200" : "text-gray-600"
       }`}
     >
       Published
