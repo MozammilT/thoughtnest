@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
-import { Menu, X } from "lucide-react"; // Optional icons from lucide
+import { Menu, X } from "lucide-react";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -12,10 +12,7 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav
-      className="w-full flex items-center justify-between px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 py-5 bg-transparent"
-    >
-      {/* Logo */}
+    <nav className="w-full flex items-center justify-between px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 py-5 bg-transparent">
       <img
         onClick={() => navigate("/")}
         className="w-36 sm:w-44 h-auto cursor-pointer"
@@ -32,12 +29,15 @@ function Navbar() {
 
       {/* Right Menu Items */}
       <div
-        className={`${
-          menuOpen ? "flex" : "hidden"
-        } ${darkMode?"bg-[#030712]/90 md:bg-transparent":"bg-white"} absolute md:static top-20 right-4 md:flex md:flex-row flex-col md:bg-transparent md:items-center md:gap-6 rounded-lg p-4 md:p-0 z-50 shadow-md md:shadow-none`}
+        className={`${menuOpen ? "flex" : "hidden"} ${
+          darkMode ? "bg-[#030712]/90 md:bg-transparent" : "bg-white"
+        } absolute md:static top-20 right-4 md:flex md:flex-row flex-col md:bg-transparent md:items-center md:gap-6 rounded-lg p-4 md:p-0 z-50 shadow-md md:shadow-none`}
       >
         <button
-          onClick={toggleTheme}
+          onClick={() => {
+            setMenuOpen(!menuOpen);
+            toggleTheme();
+          }}
           className="text-sm px-4 py-2 rounded-full text-black dark:text-white bg-gray-200 dark:bg-gray-700 mb-2 md:mb-0"
         >
           {darkMode ? "☀️" : "🌙"}
