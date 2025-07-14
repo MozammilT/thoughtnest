@@ -55,7 +55,14 @@ function Blog() {
         content,
       });
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message, {
+          position: "bottom-right",
+          style: {
+            borderRadius: "50px",
+            background: "#595959",
+            color: "#fff",
+          },
+        });
         fetchComments();
         setContent("");
         setName("");

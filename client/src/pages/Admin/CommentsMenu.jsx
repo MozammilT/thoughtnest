@@ -30,7 +30,14 @@ function CommentsMenu() {
     try {
       const { data } = await axios.delete(`/api/admin/delete-comment/${id}`);
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message, {
+          position: "bottom-right",
+          style: {
+            borderRadius: "50px",
+            background: "#595959",
+            color: "#fff",
+          },
+        });
         fetchComents();
       } else {
         toast.error(err.message);
@@ -45,7 +52,14 @@ function CommentsMenu() {
     try {
       const { data } = await axios.post(`/api/admin/disapprove-comment/${id}`);
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message, {
+          position: "bottom-right",
+          style: {
+            borderRadius: "50px",
+            background: "#595959",
+            color: "#fff",
+          },
+        });
         fetchComents();
       }
     } catch (err) {
@@ -58,7 +72,14 @@ function CommentsMenu() {
     try {
       const { data } = await axios.post(`/api/admin/approve-comment/${id}`);
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message, {
+          position: "bottom-right",
+          style: {
+            borderRadius: "50px",
+            background: "#595959",
+            color: "#fff",
+          },
+        });
         fetchComents();
       }
     } catch (err) {
@@ -145,7 +166,11 @@ function CommentsMenu() {
               })
               .map((comment, idx) => (
                 <tr key={idx} className="border-gray-300 border-t">
-                  <td className={`px-6 py-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                  <td
+                    className={`px-6 py-4 ${
+                      darkMode ? "text-gray-300" : "text-gray-600"
+                    }`}
+                  >
                     <b
                       className={`font-medium ${
                         darkMode ? "text-gray-100" : "text-gray-600"

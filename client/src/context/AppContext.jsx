@@ -12,7 +12,7 @@ export const AppProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [admin, setAdmin] = useState(false);
-  const [username, setUsername] = useState(null)
+  const [username, setUsername] = useState(null);
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState([]);
   const [inputs, setInputs] = useState("");
@@ -26,8 +26,8 @@ export const AppProvider = ({ children }) => {
       if (data.success) {
         console.log("User is authenticated:", data.admin);
         setAdmin(true);
-        setUsername(data.admin.username)
-        console.log(data.admin.username)
+        setUsername(data.admin.username);
+        console.log(data.admin.username);
       } else {
         console.log("User not authenticated");
         setAdmin(false);
@@ -43,16 +43,23 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const fetchBlogs = async (req, res) => {
+  const fetchBlogs = async () => {
     try {
       const { data } = await axios.get("/api/blog/all");
       data.success ? setBlogs(data.blogData) : toast.error(data.message);
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.message, {
+        position: "bottom-right",
+        style: {
+          borderRadius: "50px",
+          background: "#595959",
+          color: "#fff",
+        },
+      });
     }
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     fetchAdmin();
   }, [location.pathname]);
 

@@ -15,9 +15,10 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
       const { data } = await axios.delete(`/api/blog/delete/${_id}`);
       if (data.success) {
         toast.success(data.message, {
+          position: "bottom-right",
           style: {
-            borderRadius: "10px",
-            background: "#333",
+            borderRadius: "50px",
+            background: "#595959",
             color: "#fff",
           },
         });
@@ -37,7 +38,14 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
         id: _id,
       });
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message, {
+          position: "bottom-right",
+          style: {
+            borderRadius: "50px",
+            background: "#595959",
+            color: "#fff",
+          },
+        });
         await fetchBlogs();
       } else {
         toast.error(data.message);
