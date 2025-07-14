@@ -13,7 +13,6 @@ function Login() {
   const { fetchAdmin } = useAppContext();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
-  8;
   const navigate = useNavigate();
 
   const loginRequestHandler = async (e) => {
@@ -154,7 +153,11 @@ function Login() {
           <IconBrandGoogleFilled size={20} /> Login with Google
         </a>
 
-        <div className="text-sm mt-4 text-gray-700">
+        <div
+          className={`text-sm mt-4 ${
+            darkMode ? "text-gray-400" : "text-gray-700"
+          }`}
+        >
           Don't have an account?{" "}
           <Link to="/signup" className="text-primary hover:underline">
             Sign up for free!
@@ -162,7 +165,6 @@ function Login() {
         </div>
       </div>
 
-      {/* Right Section - Hidden on small devices */}
       <div
         className="hidden md:block flex-1 bg-contain bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/login.svg')" }}

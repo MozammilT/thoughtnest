@@ -35,7 +35,7 @@ function Header() {
 
       <form
         onSubmit={submitHandler}
-        className={`flex mx-auto items-center border pl-4 gap-2 border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md w-full ${
+        className={`flex mx-auto items-center border pl-4 gap-2 border-gray-500/30 h-[46px] rounded-full overflow-hidden max-w-md max-sm:max-w-xs w-full ${
           darkMode ? "bg-gray-200" : "bg-white"
         }`}
       >
@@ -79,7 +79,7 @@ function Header() {
 
       <img
         src="gradientBackground.png"
-        className="absolute -top-50 -z-1 opacity-100"
+        className="absolute -top-25 z-1 opacity-100 max-sm:-top-18"
       />
     </div>
   );

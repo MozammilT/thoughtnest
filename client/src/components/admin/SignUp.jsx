@@ -168,12 +168,16 @@ function SignUp() {
           Sign up with Google
         </a>
 
-        <p className="text-sm mt-4">
-          Already have an account?{" "}
-          <Link to="/login" className="text-primary">
+        <div
+          className={`text-sm mt-4 ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
+          Already have an account?
+          <Link to="/login" className="text-primary hover:underline">
             Login here
           </Link>
-        </p>
+        </div>
       </div>
 
       <div

@@ -19,12 +19,12 @@ function Heading() {
 
   return (
     <h1
-      className={`text-7xl max-sm:text-3xl font-semibold text-center leading-tight ${
+      className={`text-7xl max-sm:text-4xl font-semibold text-center leading-tight ${
         darkMode ? "text-gray-100" : "text-gray-700"
       }`}
     >
       Your own
-      <div className="relative inline-flex justify-center min-w-[250px] sm:w-[130px] px-2 text-primary mx-3 h-[60px] mb-2.5">
+      <div className="relative inline-flex justify-center min-w-[250px] px-2 text-primary mx-3 h-[60px] mb-2.5 max-sm:min-w-[130px] max-sm:h-[25px] max-sm:mx-2">
         <AnimatePresence mode="wait">
           <motion.span
             key={words[index]}

@@ -34,12 +34,12 @@ function BlogCount() {
 
   return (
     <p
-      className={`text-base mb-2 ${
+      className={`text-base max-sm:text-sm mb-2 ${
         darkMode ? "text-gray-200" : "text-gray-600"
       }`}
     >
       Published
-      <motion.strong className="w-[25px] inline-block text-center">
+      <motion.strong className="w-[23px] inline-block text-center">
         {rounded}
       </motion.strong>
       insightful blog posts and counting...

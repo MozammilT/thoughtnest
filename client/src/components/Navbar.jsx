@@ -1,38 +1,51 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { Menu, X } from "lucide-react"; // Optional icons from lucide
 
 function Navbar() {
   const navigate = useNavigate();
   const { admin } = useAppContext();
   const { theme, toggleTheme } = useTheme();
   const darkMode = theme === "dark";
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav
-      className={`flex justify-between items-center py-5 mx-8 sm:mx-20 xl:mx-32 ${
-        darkMode ? "bg-[#030712]/1" : " bg-white"
-      }`}
+      className="w-full flex items-center justify-between px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 py-5 bg-transparent"
     >
+      {/* Logo */}
       <img
         onClick={() => navigate("/")}
-        className="w-45 h-15 cursor-pointer"
+        className="w-36 sm:w-44 h-auto cursor-pointer"
         src={darkMode ? "/logo_dark1.png" : "/main.png"}
         alt="Thoughtnest-logo"
       />
-      <div className="flex items-center gap-4">
+
+      {/* Hamburger Menu Button (Mobile) */}
+      <div className="md:hidden">
+        <button onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* Right Menu Items */}
+      <div
+        className={`${
+          menuOpen ? "flex" : "hidden"
+        } ${darkMode?"bg-[#030712]/90 md:bg-transparent":"bg-white"} absolute md:static top-20 right-4 md:flex md:flex-row flex-col md:bg-transparent md:items-center md:gap-6 rounded-lg p-4 md:p-0 z-50 shadow-md md:shadow-none`}
+      >
         <button
           onClick={toggleTheme}
-          className={`text-sm px-4 py-2 rounded-full text-black dark:text-white cursor-pointer ${
-            darkMode ? "bg-gray-700" : "bg-gray-200"
-          }`}
+          className="text-sm px-4 py-2 rounded-full text-black dark:text-white bg-gray-200 dark:bg-gray-700 mb-2 md:mb-0"
         >
           {darkMode ? "☀️" : "🌙"}
         </button>
 
         <button
           onClick={() => (admin ? navigate("/dashboard") : navigate("/login"))}
-          className="group rounded-full bg-primary text-white flex items-center gap-2 px-6 py-2 cursor-pointer text-base"
+          className="group rounded-full bg-primary text-white flex items-center gap-2 px-6 py-2 text-base"
         >
           {admin ? "Dashboard" : "Admin Login"}
           <img

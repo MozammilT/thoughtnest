@@ -23,8 +23,8 @@ function NewsLetter() {
 
       {/* Outer container with rounded corners and bg */}
       <form
-        className={`flex items-center max-w-xl w-full overflow-hidden rounded-lg shadow-xs ${
-          darkMode ? "bg-[#cfd2d6]" : "bg-white border border-gray-300"
+        className={`flex items-center max-w-xl w-full max-sm:w-10/12 overflow-hidden rounded-lg shadow-xs ${
+          darkMode ? "bg-[#e5e7eb]" : "bg-white border border-gray-300"
         }`}
       >
         <input
@@ -33,7 +33,7 @@ function NewsLetter() {
           placeholder="Enter your email id"
           className={`h-full w-full px-4 py-3 outline-none text-sm ${
             darkMode
-              ? "bg-[#cfd2d6] text-gray-800 placeholder-gray-600"
+              ? "bg-[#e5e7eb] text-gray-800 placeholder-gray-600"
               : "bg-white text-gray-800 placeholder-gray-400"
           }`}
         />

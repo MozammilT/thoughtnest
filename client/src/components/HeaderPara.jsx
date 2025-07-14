@@ -25,7 +25,7 @@ function HeaderPara() {
   return (
     <p
       ref={pRef}
-      className={`my-6 sm:my-8 max-w-2xl m-auto max-sm:text-base text-lg ${
+      className={`my-6 sm:my-8 max-w-2xl m-auto max-sm:text-base text-lg bg ${
         darkMode ? "text-gray-200" : "text-gray-500"
       }`}
     >

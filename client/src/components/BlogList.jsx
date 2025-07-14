@@ -28,12 +28,15 @@ function BlogList() {
 
   return (
     <div>
-      <div className="flex justify-center gap-4 sm:gap-8 my-10 relative">
+      <div className="flex justify-center gap-4 max-sm:gap-1 sm:gap-8 my-10 relative">
         {blogCategories.map((blog) => (
-          <div key={blog} className="relative px-4 py-2 cursor-pointer z-10">
+          <div
+            key={blog}
+            className="relative px-4 max-sm:px-1 py-2 cursor-pointer z-10"
+          >
             <motion.button
               onClick={() => setMenu(blog)}
-              className="text-base cursor-pointer px-4 py-0.5"
+              className="text-base max-sm:text-sm cursor-pointer px-4 max-sm:px-1 py-0.5"
               animate={{
                 color:
                   menu === blog ? "#fff" : darkMode ? "#d1d5dc" : "#374151",
@@ -45,7 +48,7 @@ function BlogList() {
                 <motion.div
                   layoutId="underline"
                   transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                  className="absolute left-0 top-0.5 right-0 bg-primary rounded-full h-10 -z-1"
+                  className="absolute left-0 top-0.5 max-sm:top-1 right-0 bg-primary rounded-full h-10 max-sm:h-8 -z-1"
                 />
               )}
             </motion.button>

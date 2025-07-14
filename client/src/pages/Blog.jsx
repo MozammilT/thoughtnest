@@ -93,21 +93,21 @@ function Blog() {
           <div className="relative">
             <img
               src="/gradientBackground.png"
-              className="absolute -top-50 -z-10 opacity-50"
+              className="absolute -top-50 max-sm:-top-20 -z-10 opacity-50"
             />
             <div className="text-center mt-20">
               <p className="text-primary font-medium my-5">
                 Published on {moment(blogData.createdAt).format("MMMM Do YYYY")}
               </p>
               <h1
-                className={`text-2xl sm:text-5xl font-semibold max-w-2xl my-5 mx-auto ${
+                className={`text-2xl sm:text-5xl font-semibold max-w-3xl my-5 mx-auto max-sm:mx-5 ${
                   darkMode ? "text-gray-200" : "text-gray-600"
                 }`}
               >
                 {blogData.title}
               </h1>
               <p
-                className={`text-xl my-5 truncate max-w-lg mx-auto ${
+                className={`text-lg sm:text-xl my-5 max-w-xl mx-auto max-sm:mx-5 ${
                   darkMode ? "text-gray-100" : "text-gray-600"
                 }`}
               >
@@ -169,7 +169,7 @@ function Blog() {
               </p>
               <form
                 onSubmit={commentHandler}
-                className="flex flex-col gap-4 items-start max-w-lg"
+                className="flex flex-col gap-4 items-start max-w-lg max-sm:max-w-90"
               >
                 <input
                   required
@@ -193,7 +193,7 @@ function Blog() {
 
                 <button
                   type="submit"
-                  className="bg-primary/90 text-white text-xl px-4 py-2 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 mb-15"
+                  className="bg-primary/90 text-white text-xl max-sm:text-lg px-4 max-sm:px-3 py-2 max-sm:py-1 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 mb-15"
                 >
                   Submit
                 </button>
@@ -201,7 +201,7 @@ function Blog() {
 
               <div>
                 <p
-                  className={`font-medium text-lg mb-5 ${
+                  className={`font-medium text-lg max-sm:text-base mb-5 ${
                     darkMode ? "text-gray-400" : "text-gray-700"
                   }`}
                 >
@@ -210,15 +210,15 @@ function Blog() {
                 <div className="flex gap-3 mb-15">
                   <img
                     src="/twitter_icon.svg"
-                    className="w-15 cursor-pointer"
+                    className="w-15 max-sm:w-12 cursor-pointer"
                   />
                   <img
                     src="/facebook_icon.svg"
-                    className="w-15 cursor-pointer"
+                    className="w-15 max-sm:w-12 cursor-pointer"
                   />
                   <img
                     src="/googleplus_icon.svg"
-                    className="w-15 cursor-pointer"
+                    className="w-15 max-sm:w-12 cursor-pointer"
                   />
                 </div>
               </div>
