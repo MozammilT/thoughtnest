@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../../components/ui/sidebar";
 import {
   IconBrandTabler,
@@ -11,7 +11,6 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Outlet, Link } from "react-router-dom";
 import AdminNavbar from "@/components/admin/AdminNavbar";
-import Loading from "../../components/Loading.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
@@ -62,7 +61,7 @@ export function SidebarDemo() {
               {open ? <Logo /> : <LogoIcon />}
               <div className="mt-8 flex flex-col gap-2 cursor-pointer">
                 {links.map((link, idx) => (
-                  <SidebarLink key={idx} link={link} />
+                  <SidebarLink key={idx} link={link} onClick={() => setOpen(!open)}/>
                 ))}
               </div>
             </div>
