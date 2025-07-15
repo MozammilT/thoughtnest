@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { IconMenu2, IconX } from "@tabler/icons-react";
+import { IconMenuDeep, IconX } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
@@ -76,17 +76,21 @@ export const DesktopSidebar = ({ className, children, ...props }) => {
 };
 
 export const MobileSidebar = ({ className, children, ...props }) => {
+  const { theme } = useTheme();
+  const darkMode = theme === "dark";
   const { open, setOpen } = useSidebar();
   return (
     <div
       className={cn(
-        "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-neutral-100 w-full"
+        `${
+          darkMode ? "bg-[#262626]" : "bg-neutral-100"
+        } h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between w-full`
       )}
       {...props}
     >
       <div className="flex justify-end z-20 w-full">
-        <IconMenu2
-          className="text-neutral-800"
+        <IconMenuDeep
+          className={`${darkMode ? "text-neutral-300" : "text-neutral-800"}`}
           onClick={() => setOpen(!open)}
         />
       </div>
@@ -101,12 +105,16 @@ export const MobileSidebar = ({ className, children, ...props }) => {
               ease: "easeInOut",
             }}
             className={cn(
-              "fixed h-full w-full inset-0 bg-white p-10 z-[100] flex flex-col justify-between",
+              `${
+                darkMode ? "bg-[#262626]" : "bg-white"
+              } fixed h-full w-full inset-0 p-10 z-[100] flex flex-col justify-between`,
               className
             )}
           >
             <div
-              className="absolute right-10 top-10 z-50 text-neutral-800"
+              className={`absolute right-10 top-10 z-50 ${
+                darkMode ? "text-neutral-300" : "text-neutral-800"
+              }`}
               onClick={() => setOpen(!open)}
             >
               <IconX />
