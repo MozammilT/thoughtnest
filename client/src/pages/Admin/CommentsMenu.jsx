@@ -98,7 +98,7 @@ function CommentsMenu() {
         darkMode ? "bg-[#171717]" : "bg-yellow-50/30"
       }`}
     >
-      <div className="flex justify-between items-center max-w-3xl">
+      <div className="max-w-3xl w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
         <div
           className={`flex items-center gap-1 text-lg font-semibold ${
             darkMode ? "text-gray-300" : "text-gray-600"
@@ -111,7 +111,7 @@ function CommentsMenu() {
           <button
             onClick={() => setFilter("Approved")}
             className={`border rounded-full px-4 py-1 cursor-pointer text-xs ${
-              darkMode ? "shadow-md shadow-neutral-50/10" : "shadow-md"
+              darkMode ? "shadow-md shadow-neutral-50/5" : "shadow-md"
             } ${
               filter === "Approved"
                 ? "text-primary"
@@ -125,7 +125,7 @@ function CommentsMenu() {
           <button
             onClick={() => setFilter("Not Approved")}
             className={`border rounded-full px-4 py-1 cursor-pointer text-xs ${
-              darkMode ? "shadow-md shadow-neutral-50/10" : "shadow-md"
+              darkMode ? "shadow-md shadow-neutral-50/5" : "shadow-md"
             } ${
               filter === "Not Approved"
                 ? "text-primary"
