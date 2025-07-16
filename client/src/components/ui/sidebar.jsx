@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IconMenuDeep, IconX } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
 const SidebarContext = createContext(undefined);
@@ -129,27 +129,28 @@ export const MobileSidebar = ({ className, children, ...props }) => {
 
 export const SidebarLink = ({ link, className, ...props }) => {
   const { open, animate } = useSidebar();
+  const location = useLocation();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
+
+  const isActive = location.pathname === link.path;
+
+  const baseClasses =
+    "flex items-center justify-start gap-2 group/sidebar py-2 px-3 rounded transition-all duration-200";
 
   return (
     <Link
       to={link.path}
-      className={cn(
-        "flex items-center justify-start gap-2 group/sidebar py-2",
-        className
-      )}
+      className={cn(baseClasses, isActive && "bg-primary", className)}
       {...props}
     >
-      {link.icon}
+      <div className="shrink-0">{link.icon}</div>
       <motion.span
         animate={{
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className={`text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0 ${
-          darkMode ? "text-neutral-300" : "text-neutral-700"
-        }`}
+        className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>

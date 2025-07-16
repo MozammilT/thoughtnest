@@ -9,12 +9,13 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
 export function SidebarDemo() {
+  const location = useLocation();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
 
@@ -61,7 +62,12 @@ export function SidebarDemo() {
               {open ? <Logo /> : <LogoIcon />}
               <div className="mt-8 flex flex-col gap-2 cursor-pointer">
                 {links.map((link, idx) => (
-                  <SidebarLink key={idx} link={link} onClick={() => setOpen(!open)}/>
+                  <SidebarLink
+                    key={idx}
+                    link={link}
+                    onClick={() => setOpen(!open)}
+                    isActive={location.pathname === link.path}
+                  />
                 ))}
               </div>
             </div>
