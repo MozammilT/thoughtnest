@@ -6,6 +6,7 @@ import adminRoute from "./routes/adminRoute.js";
 import blogRoute from "./routes/blogRoutes.js";
 import session from "express-session";
 import connectCloudinary from "./config/cloudinary.js";
+import passport from "./config/passport.js";
 
 connectDB();
 connectCloudinary();
@@ -29,9 +30,16 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "lax",
     },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
+app.use((req, res, next) => {
+  console.log("Session at", req.path, ":", req.session);
+  next();
+});
 
 //Routes
 app.get("/", (_, res) => {

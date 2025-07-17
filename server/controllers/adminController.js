@@ -2,8 +2,23 @@ import User from "../models/user.js";
 import Comment from "../models/comment.js";
 import Blog from "../models/blog.js";
 import bcrypt from "bcrypt";
+import passport from "passport";
+import { Strategy } from "passport-local";
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
 
 export const adminLogin = async (req, res) => {
   const { identifier, password } = req.body;
@@ -36,20 +51,19 @@ export const adminLogin = async (req, res) => {
         .status(401)
         .json({ success: false, message: "Incorrect credentials" });
     }
-
-    //Store user info in session
-    req.session.user = {
-      id: existingUser._id,
-      email: existingUser.email,
-      username: existingUser.username,
-    };
-
     console.log("Session after login: ", req.session);
 
     console.log("Login successful for user:", existingUser.email);
-    res
-      .status(200)
-      .json({ success: true, message: "Login successfull", existingUser });
+    req.login(existingUser, (err) => {
+      if (err) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Login failed" });
+      }
+      res
+        .status(200)
+        .json({ success: true, message: "Login successful", existingUser });
+    });
   } catch (err) {
     console.log("Error in adminLogin function :", err);
     res.status(500).json({ success: false, message: "Internal server error" });
@@ -99,7 +113,7 @@ export const getAdminData = async (req, res) => {
   console.log("[getAdminData] getUserData called");
   try {
     // Check if user session exists
-    if (!req.session || !req.session.user) {
+    if (!req.user) {
       console.log("[getAdminData] No user session found");
       return res.status(401).json({
         success: false,
@@ -107,7 +121,7 @@ export const getAdminData = async (req, res) => {
       });
     }
 
-    const admin = req.session.user;
+    const admin = req.user;
     console.log("[getAdminData] User session found:", admin);
 
     // Return the admin data
@@ -127,7 +141,7 @@ export const getAdminData = async (req, res) => {
 export const getAllAdminBlogs = async (req, res) => {
   console.log("getAllAdminBlogs function called...");
   try {
-    if (!req.session || !req.session.user) {
+    if (!req.user) {
       console.log("[getAllComments] No user session found");
       return res.status(401).json({
         success: false,
@@ -135,7 +149,7 @@ export const getAllAdminBlogs = async (req, res) => {
       });
     }
 
-    const author = req.session.user.id;
+    const author = req.user.id;
     console.log("[getAllAdminBlogs] Logged in user ID:", author);
 
     const blogs = await Blog.find({ author: author })
@@ -152,14 +166,14 @@ export const getAllAdminBlogs = async (req, res) => {
 export const getAllComments = async (req, res) => {
   console.log("getAllComments function called...");
   try {
-    if (!req.session || !req.session.user) {
+    if (!req.user) {
       console.log("[getAllComments] No user session found");
       return res.status(401).json({
         success: false,
         message: "Unauthorized - Please login first",
       });
     }
-    const author = req.session.user.id;
+    const author = req.user.id;
     console.log("[getAllComments] Logged in user ID:", author);
 
     // Find blogs written by this user
@@ -184,14 +198,14 @@ export const getAllComments = async (req, res) => {
 export const getDashboard = async (req, res) => {
   console.log("getDashboard function called...");
   // Check if user session exists
-  if (!req.session || !req.session.user) {
+  if (!req.user) {
     console.log("[getDashboard] No user session found");
     return res.status(401).json({
       success: false,
       message: "Unauthorized - Please login first",
     });
   }
-  const author = req.session.user.id;
+  const author = req.user.id;
   console.log("[getDashboard] User found: ", author);
   try {
     const recentBlogs = await Blog.find({ author: author })
@@ -277,9 +291,7 @@ export const disapproveComment = async (req, res) => {
       "[disapproveComment] Comment approved successfully:",
       approvedComment
     );
-    res
-      .status(200)
-      .json({ success: true, message: "Comment disapproved" });
+    res.status(200).json({ success: true, message: "Comment disapproved" });
   } catch (err) {
     console.log("Error in disapproveComment function: ", err);
     res.status(500).json({ success: false, message: err.message });
@@ -307,9 +319,7 @@ export const approveComment = async (req, res) => {
       "[disapproveComment] Comment approved successfully:",
       approveComment
     );
-    res
-      .status(200)
-      .json({ success: true, message: "Comment approved" });
+    res.status(200).json({ success: true, message: "Comment approved" });
   } catch (err) {
     console.log("Error in approveComment function: ", err);
     res.status(500).json({ success: false, message: err.message });

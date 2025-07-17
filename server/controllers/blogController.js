@@ -8,7 +8,7 @@ export const addBlog = async (req, res) => {
     console.log("[addBlog] Incoming request");
     console.log("req.body:", req.body);
     console.log("req.file:", req.file);
-    console.log("req.session.user:", req.session.user);
+    console.log("req.user:", req.user);
 
     // Parse blog data
     const { title, description, category, image, isPublished, subTitle } =
@@ -55,7 +55,7 @@ export const addBlog = async (req, res) => {
       image: imageURL,
       isPublished,
       subTitle,
-      author: req.session.user.id,
+      author: req.user.id,
     });
 
     console.log("[addBlog] Blog created successfully:", newBlog);
