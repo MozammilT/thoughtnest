@@ -9,6 +9,7 @@ import {
   deleteComment,
   disapproveComment,
   approveComment,
+  adminLogout,
 } from "../controllers/adminController.js";
 import { isAuthenticated } from "../middleware/authMiddleware.js";
 import passport from "passport";
@@ -63,11 +64,12 @@ adminRoute.post("/login", passport.authenticate("local"), (req, res) => {
 });
 adminRoute.post("/register", adminRegister);
 adminRoute.get("/", getAdminData);
-adminRoute.get("/blogs",isAuthenticated, getAllAdminBlogs);
+adminRoute.get("/blogs", isAuthenticated, getAllAdminBlogs);
 adminRoute.get("/comments", getAllComments);
 adminRoute.get("/dashboard", isAuthenticated, getDashboard);
 adminRoute.delete("/delete-comment/:id", isAuthenticated, deleteComment);
 adminRoute.post("/disapprove-comment/:id", isAuthenticated, disapproveComment);
 adminRoute.post("/approve-comment/:id", isAuthenticated, approveComment);
+adminRoute.get("/logout", isAuthenticated, adminLogout);
 
 export default adminRoute;

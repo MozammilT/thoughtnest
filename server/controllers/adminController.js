@@ -325,3 +325,20 @@ export const approveComment = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+export const adminLogout = async (req, res, next) => {
+  console.log("adminLogout function called...");
+  try {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res
+        .status(200)
+        .json({ success: true, messge: "User logged out successfully" });
+    });
+  } catch (err) {
+    console.log("Error in adminLogout function: ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
