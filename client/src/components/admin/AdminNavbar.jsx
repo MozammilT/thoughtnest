@@ -1,14 +1,28 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import { useAppContext } from "../../context/AppContext.jsx";
 import { Menu, X } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 function AdminNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { axios } = useAppContext();
   const { theme, toggleTheme } = useTheme();
   const darkMode = theme === "dark";
-
   const navigate = useNavigate();
+
+  const logoutHandler = async (req, res) => {
+    try {
+      const { data } = await axios.get("/api/admin/logout");
+      if (data.success) {
+        navigate("/");
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
+  };
   return (
     <nav className="flex justify-between items-center py-2 mx-8 sm:mx-20 xl:mx-30">
       <img
@@ -42,7 +56,7 @@ function AdminNavbar() {
         </button>
 
         <button
-          onClick={() => navigate("/logout")}
+          onClick={logoutHandler}
           className="group rounded-full bg-primary text-white flex items-center gap-2 px-6 py-2 text-base"
         >
           Logout
