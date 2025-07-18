@@ -2,22 +2,8 @@ import User from "../models/user.js";
 import Comment from "../models/comment.js";
 import Blog from "../models/blog.js";
 import bcrypt from "bcrypt";
-import passport from "passport";
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
-
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
 
 export const adminLogin = async (req, res) => {
   const { identifier, password } = req.body;
@@ -48,7 +34,7 @@ export const adminLogin = async (req, res) => {
       console.log("Incorrect password entered.");
       return res
         .status(401)
-        .json({ success: false, message: "Incorrect credentials" });
+        .json({ success: false, message: "Incorrect username or password" });
     }
     console.log("Session after login: ", req.session);
 
