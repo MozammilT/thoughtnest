@@ -35,11 +35,11 @@ function DashboardMenu() {
   }, []);
 
   useEffect(() => {
-    if (!loading && !admin) {
+    if (admin === false) {
       navigate("/");
     }
-  }, [admin, loading]);
-  if (loading) return <Loading />;
+  }, [admin]);
+  if (admin === null || loading) return <Loading />;
 
   return (
     <div
