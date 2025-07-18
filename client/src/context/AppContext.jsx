@@ -11,7 +11,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [admin, setAdmin] = useState(false);
+  const [admin, setAdmin] = useState(null);
   const [username, setUsername] = useState(null);
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState([]);
@@ -26,7 +26,7 @@ export const AppProvider = ({ children }) => {
       if (data.success) {
         console.log("User is authenticated:", data.admin);
         setAdmin(true);
-        setUsername(data.admin.username);
+        setUsername(data.admin.username); 
         console.log(data.admin.username);
       } else {
         console.log("User not authenticated");
