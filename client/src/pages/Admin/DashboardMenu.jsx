@@ -48,10 +48,10 @@ function DashboardMenu() {
       }`}
     >
       {/* Top Stats Cards */}
-      <div className="flex flex-wrap gap-4">
+      <div className="flex md:flex-wrap gap-4 max-sm:gap-2">
         {/* Blogs */}
         <div
-          className={`flex items-center border shadow rounded-xl gap-4 cursor-pointer hover:scale-105 transition-transform min-w-50 pl-4 py-3 ${
+          className={`flex items-center border shadow rounded-xl gap-4 max-sm:gap-1 cursor-pointer hover:scale-105 transition-transform min-w-45 max-sm:min-w-28 pl-4 max-sm:pl-2 py-3 max-sm:py-1 ${
             darkMode
               ? "border-gray-700 bg-[#111827]"
               : "border-gray-300 bg-white"
@@ -60,18 +60,18 @@ function DashboardMenu() {
           <img
             src="/dashboard_icon_1.svg"
             alt="blog-icon"
-            className="h-12 w-12"
+            className="h-12 w-12 max-sm:w-6 max-sm:h-6"
           />
           <div className="pr-5 pl-2">
             <p
-              className={`text-2xl font-medium ${
+              className={`text-2xl font-medium max-sm:text-sm ${
                 darkMode ? "text-gray-100" : "text-gray-700"
               }`}
             >
               {dashboardData.blogs}
             </p>
             <p
-              className={`text-sm font-medium tracking-wide ${
+              className={`text-sm max-sm:text-xs font-medium tracking-wide ${
                 darkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
@@ -82,7 +82,7 @@ function DashboardMenu() {
 
         {/* Comments */}
         <div
-          className={`flex items-center border shadow rounded-xl gap-4 cursor-pointer hover:scale-105 transition-transform min-w-45 pl-4 py-3 ${
+          className={`flex items-center border shadow rounded-xl gap-4 max-sm:gap-1 cursor-pointer hover:scale-105 transition-transform min-w-45 max-sm:min-w-28 pl-4 max-sm:pl-2 py-3 max-sm:py-1 ${
             darkMode
               ? "border-gray-700 bg-[#111827]"
               : "border-gray-300 bg-white"
@@ -91,18 +91,18 @@ function DashboardMenu() {
           <img
             src="/dashboard_icon_2.svg"
             alt="comments-icon"
-            className="h-12 w-12"
+            className="max-sm:w-6 max-sm:h-6"
           />
           <div className="pr-5 pl-2">
             <p
-              className={`text-2xl font-medium ${
+              className={`text-2xl font-medium max-sm:text-sm ${
                 darkMode ? "text-gray-100" : "text-gray-700"
               }`}
             >
               {dashboardData.comments}
             </p>
             <p
-              className={`text-sm font-medium tracking-wide ${
+              className={`text-sm max-sm:text-xs font-medium tracking-wide ${
                 darkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
@@ -113,7 +113,7 @@ function DashboardMenu() {
 
         {/* Drafts */}
         <div
-          className={`flex items-center border shadow rounded-xl gap-4 cursor-pointer hover:scale-105 transition-transform min-w-45 pl-4 py-3 ${
+          className={`flex items-center border shadow rounded-xl gap-4 max-sm:gap-1 cursor-pointer hover:scale-105 transition-transform min-w-45 max-sm:min-w-28 pl-4 max-sm:pl-2 py-3 max-sm:py-1 ${
             darkMode
               ? "border-gray-700 bg-[#111827]"
               : "border-gray-300 bg-white"
@@ -122,18 +122,18 @@ function DashboardMenu() {
           <img
             src="/dashboard_icon_3.svg"
             alt="drafts-icon"
-            className="h-12 w-12"
+            className="h-12 w-12 max-sm:w-6 max-sm:h-6"
           />
           <div className="pr-5 pl-2">
             <p
-              className={`text-2xl font-medium ${
+              className={`text-2xl font-medium max-sm:text-sm ${
                 darkMode ? "text-gray-100" : "text-gray-700"
               }`}
             >
               {dashboardData.drafts}
             </p>
             <p
-              className={`text-sm font-medium tracking-wide ${
+              className={`text-sm max-sm:text-xs font-medium tracking-wide ${
                 darkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
@@ -155,7 +155,7 @@ function DashboardMenu() {
         </div>
 
         <div
-          className={`relative max-w-4xl overflow-x-auto shadow rounded-lg scrollbar-hide ${
+          className={`relative max-w-4xl overflow-auto max-h-[70vh] shadow rounded-lg scrollbar-hide ${
             darkMode ? "bg-[#111827]" : "bg-white"
           }`}
         >
