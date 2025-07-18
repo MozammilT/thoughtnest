@@ -45,6 +45,8 @@ export function SidebarDemo() {
   ];
   const [open, setOpen] = useState(false);
   const { username } = useAppContext();
+  const formattedUsername =
+    username.charAt(0).toUpperCase() + username.slice(1);
 
   return (
     <>
@@ -74,7 +76,7 @@ export function SidebarDemo() {
             <div>
               <SidebarLink
                 link={{
-                  label: username || "admin",
+                  label: formattedUsername || "admin",
                   path: "#",
                   icon: (
                     <img
