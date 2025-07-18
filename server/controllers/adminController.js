@@ -3,7 +3,6 @@ import Comment from "../models/comment.js";
 import Blog from "../models/blog.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
-import { Strategy } from "passport-local";
 
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
@@ -72,7 +71,11 @@ export const adminLogin = async (req, res) => {
 
 export const adminRegister = async (req, res) => {
   const { username, email, password } = req.body;
-  console.log("Registration Attempt:", { username, email, password });
+  console.log("[adminRegister] Registration Attempt:", {
+    username,
+    email,
+    password,
+  });
 
   if (!username || !email || !password) {
     console.log("Missing registration details.");
@@ -82,10 +85,10 @@ export const adminRegister = async (req, res) => {
   }
   try {
     const user = await User.findOne({ email });
-    console.log("User lookup by email result:", user);
+    console.log("[adminRegister] User lookup by email result:", user);
 
     if (user) {
-      console.log("User already exists with email:", email);
+      console.log("[adminRegister] User already exists with email:", email);
       return res.status(409).json({
         success: false,
         message: "User already exists, try logging in",
@@ -99,10 +102,15 @@ export const adminRegister = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    console.log(`User created successfully with data: ${newUser}`);
-    res
-      .status(200)
-      .json({ success: true, message: "User created successfully." });
+    console.log(
+      `[adminRegister] User created successfully with data: ${newUser}`
+    );
+    req.login(newUser, (err) => {
+      if (err) throw err;
+      res
+        .status(200)
+        .json({ success: true, message: "User created successfully." });
+    });
   } catch (err) {
     console.log("Error in adminRegister function :", err);
     res.status(500).json({ success: false, message: "Internal server error" });
