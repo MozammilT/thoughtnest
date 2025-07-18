@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import { useAppContext } from "../../context/AppContext.jsx";
 import axios from "axios";
 
 function SignUp() {
@@ -13,6 +14,7 @@ function SignUp() {
   const { theme } = useTheme();
   const darkMode = theme === "dark";
   const navigate = useNavigate();
+  const { fetchAdmin } = useAppContext();
 
   const registerRequestHandler = async (e) => {
     e.preventDefault();
@@ -20,10 +22,17 @@ function SignUp() {
     try {
       const { data } = await axios.post(
         "http://localhost:3000/api/admin/register",
-        { username, email, password }
+        { username, email, password },
+        { withCredentials: true }
       );
 
       if (data.success) {
+        console.log("✅ Registration success:", data);
+        const userRes = await axios.get("/api/admin", {
+          withCredentials: true,
+        });
+        console.log("✅ Admin session confirmed:", userRes.data);
+        await fetchAdmin();
         navigate("/dashboard");
       }
     } catch (err) {
