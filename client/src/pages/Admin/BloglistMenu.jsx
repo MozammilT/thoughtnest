@@ -44,7 +44,7 @@ function BloglistMenu() {
           darkMode ? "border-gray-900" : "border-gray-200"
         }`}
       >
-        <div className="max-h-[450px] overflow-y-auto">
+        <div className="max-h-[500px] overflow-y-auto">
           <table
             className={`w-full text-sm ${
               darkMode ? "text-gray-300" : "text-gray-500"
