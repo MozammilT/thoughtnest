@@ -94,7 +94,7 @@ function CommentsMenu() {
 
   return (
     <div
-      className={`flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 ${
+      className={`flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 overflow-y-auto ${
         darkMode ? "bg-[#171717]" : "bg-yellow-50/30"
       }`}
     >
@@ -139,10 +139,11 @@ function CommentsMenu() {
         </div>
       </div>
 
-      <div className="relative max-w-4xl overflow-x-auto mt-4 shadow rounded-lg scrollbar-hide">
-        <table className="w-full text-sm text-gray-500">
+      <div className="relative max-w-4xl overflow-x-auto mt-4 shadow rounded-lg scrollbar-hide max-h-[70vh] max-sm:max-h-[60vh] overflow-y-auto">
+        {/* ✅ Table for desktop */}
+        <table className="w-full text-sm text-gray-500 sm:table hidden">
           <thead
-            className={`text-xs uppercase text-left border-b border-gray-300 ${
+            className={`text-xs uppercase text-left border-b border-gray-300 sticky top-0 z-10 ${
               darkMode ? "bg-[#111827] text-gray-300" : "bg-white text-gray-700"
             }`}
           >
@@ -150,7 +151,7 @@ function CommentsMenu() {
               <th scope="col" className="px-6 py-3">
                 Blog title & Comment
               </th>
-              <th scope="col" className="px-6 py-3 max-sm:hidden">
+              <th scope="col" className="px-6 py-3">
                 Date
               </th>
               <th scope="col" className="px-10 py-3">
@@ -160,66 +161,40 @@ function CommentsMenu() {
           </thead>
           <tbody className={`${darkMode ? "bg-[#3d3d3d]" : "bg-white"}`}>
             {comments
-              .filter((item) => {
-                if (filter === "Approved") return item.isApproved === true;
-                return item.isApproved === false;
-              })
+              .filter((item) =>
+                filter === "Approved" ? item.isApproved : !item.isApproved
+              )
               .map((comment, idx) => (
-                <tr key={idx} className="border-gray-300 border-t">
+                <tr key={idx} className="border-t border-gray-300">
                   <td
                     className={`px-6 py-4 ${
                       darkMode ? "text-gray-300" : "text-gray-600"
                     }`}
                   >
-                    <b
-                      className={`font-medium ${
-                        darkMode ? "text-gray-100" : "text-gray-600"
-                      }`}
-                    >
-                      Blog
-                    </b>
-                    : {comment.blog.title} <br /> <br />
-                    <b
-                      className={`font-medium ${
-                        darkMode ? "text-gray-100" : "text-gray-600"
-                      }`}
-                    >
-                      Name
-                    </b>
-                    : {comment.name} <br />
-                    <b
-                      className={`font-medium ${
-                        darkMode ? "text-gray-100" : "text-gray-600"
-                      }`}
-                    >
-                      Comment
-                    </b>
-                    : {comment.content}
+                    <b>Blog:</b> {comment.blog.title} <br />
+                    <b>Name:</b> {comment.name} <br />
+                    <b>Comment:</b> {comment.content}
                   </td>
                   <td
-                    className={`px-6 py-4 max-sm:hidden ${
+                    className={`px-6 py-4 ${
                       darkMode ? "text-gray-300" : "text-gray-600"
                     }`}
                   >
                     {moment(comment.blog.createdAt).format("MMMM Do, YYYY")}
                   </td>
                   <td className="px-6 py-4">
-                    <div className="inline-flex items-center gap-4 ml-4">
+                    <div className="inline-flex items-center gap-4">
                       {!comment.isApproved ? (
                         <button
                           onClick={() => approveCommentStatus(comment._id)}
+                          className="text-green-100 bg-green-600 hover:bg-green-700 border border-green-600 rounded-full px-3 py-1 text-xs cursor-pointer"
                         >
-                          <img
-                            src="/tick_icon.svg"
-                            title="Approve Comment"
-                            className="w-5 hover:scale-105 cursor-pointer transition-all"
-                          />
+                          Approve
                         </button>
                       ) : (
                         <button
                           onClick={() => disapproveCommentStatus(comment._id)}
-                          title="Disapprove comment"
-                          className="text-xs border border-green-600 text-green-600 rounded-full px-3 py-1 cursor-pointer"
+                          className="text-red-100 bg-red-600 hover:bg-red-700 border border-red-500 rounded-full px-3 py-1 text-xs cursor-pointer"
                         >
                           Disapprove
                         </button>
@@ -228,8 +203,8 @@ function CommentsMenu() {
                         trigger={
                           <img
                             src="/bin_icon.svg"
-                            title="Delete Comment"
-                            className="w-5 hover:scale-125 cursor-pointer transition-all"
+                            alt="delete"
+                            className="w-5 hover:scale-125 transition-all cursor-pointer"
                           />
                         }
                         title={"Are you sure?"}
@@ -244,6 +219,70 @@ function CommentsMenu() {
               ))}
           </tbody>
         </table>
+
+        {/* ✅ Card layout for mobile */}
+        <div className="sm:hidden flex flex-col gap-4 mt-4">
+          {comments
+            .filter((item) =>
+              filter === "Approved" ? item.isApproved : !item.isApproved
+            )
+            .map((comment, idx) => (
+              <div
+              
+                key={idx}
+                className={`rounded-xl p-4 shadow-md ${
+                  darkMode
+                    ? "bg-[#3d3d3d] text-gray-200"
+                    : "bg-white text-gray-700"
+                }`}
+              >
+                <p>
+                  <b>Blog:</b> {comment.blog.title}
+                </p>
+                <p>
+                  <b>Name:</b> {comment.name}
+                </p>
+                <p>
+                  <b>Comment:</b> {comment.content}
+                </p>
+                <p className="text-xs mt-2 opacity-70">
+                  {moment(comment.blog.createdAt).format("MMMM Do, YYYY")}
+                </p>
+
+                <div className="flex justify-between items-center mt-3">
+                  {!comment.isApproved ? (
+                    <button
+                      onClick={() => approveCommentStatus(comment._id)}
+                      className="text-green-100 bg-green-600 hover:bg-green-700 border border-green-600 rounded-full px-3 py-1 text-xs cursor-pointer"
+                    >
+                      Approve
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => disapproveCommentStatus(comment._id)}
+                      className="text-red-100 bg-red-600 hover:bg-red-700 border border-red-500 rounded-full px-3 py-1 text-xs cursor-pointer"
+                    >
+                      Disapprove
+                    </button>
+                  )}
+                  <AlertDialogDemo
+                    trigger={
+                      <img
+                        src="/bin_icon.svg"
+                        alt="delete"
+                        className="w-5 hover:scale-125 transition-all cursor-pointer"
+                      />
+                    }
+                    title={"Are you sure?"}
+                    description={
+                      "Doing this will permanently delete this comment from our servers."
+                    }
+                    onConfirm={() => deleteComment(comment._id)}
+                  />
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
