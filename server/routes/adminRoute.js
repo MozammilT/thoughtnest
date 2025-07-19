@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  adminLogin,
   adminRegister,
   getAdminData,
   getAllAdminBlogs,
@@ -12,44 +11,24 @@ import {
   adminLogout,
 } from "../controllers/adminController.js";
 import { isAuthenticated } from "../middleware/authMiddleware.js";
-// import passport from "passport";
-// import { Strategy as LocalStrategy } from "passport-local";
-// import User from "../models/user.js";
-// import bcrypt from "bcrypt";
+import passport from "../config/passport.js";
 
 const adminRoute = express.Router();
 
-// // Local Strategy for username/email and password
-// passport.use(
-//   new LocalStrategy(
-//     {
-//       usernameField: "identifier",
-//       passwordField: "password",
-//     },
-//     async (identifier, password, done) => {
-//       try {
-//         const user = await User.findOne({
-//           $or: [{ username: identifier }, { email: identifier }],
-//         });
-//         if (!user) return done(null, false, { message: "User not found" });
-
-//         const match = await bcrypt.compare(password, user.password);
-//         if (!match) return done(null, false, { message: "Incorrect password" });
-
-//         return done(null, user);
-//       } catch (err) {
-//         return done(err);
-//       }
-//     }
-//   )
-// );
-
-// adminRoute.post("/login", passport.authenticate("local"), (req, res) => {
-//   res
-//     .status(200)
-//     .json({ success: true, message: "Login successful", user: req.user });
-// });
-adminRoute.post("/login", adminLogin);
+adminRoute.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.status(401).json({ success: false, message: info.message });
+    }
+    req.login(user, (err) => {
+      if (err) return next(err);
+      return res
+        .status(200)
+        .json({ success: true, message: "Login successful", user });
+    });
+  })(req, res, next);
+});
 adminRoute.post("/register", adminRegister);
 adminRoute.get("/", getAdminData);
 adminRoute.get("/blogs", isAuthenticated, getAllAdminBlogs);
