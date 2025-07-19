@@ -143,7 +143,7 @@ function Login() {
         </form>
 
         <a
-          href="/auth/google"
+          href={`${import.meta.env.VITE_BACKEND_URL}/api/admin/auth/google`}
           className={`flex items-center justify-center gap-2 w-full max-w-md border border-gray-300 p-3 rounded-lg mt-4 transition ${
             darkMode
               ? "bg-gray-300 hover:bg-gray-400 text-gray-900"

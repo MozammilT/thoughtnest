@@ -166,7 +166,7 @@ function SignUp() {
         </form>
 
         <a
-          href="/auth/google"
+          href={`${import.meta.env.VITE_BACKEND_URL}/api/admin/auth/google`}
           className={`flex items-center justify-center gap-3 w-full max-w-sm border border-gray-300 rounded-lg p-3 mt-4 text-base ${
             darkMode
               ? "bg-gray-300 hover:bg-gray-400 text-gray-900"
