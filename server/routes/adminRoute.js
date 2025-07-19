@@ -38,5 +38,17 @@ adminRoute.delete("/delete-comment/:id", isAuthenticated, deleteComment);
 adminRoute.post("/disapprove-comment/:id", isAuthenticated, disapproveComment);
 adminRoute.post("/approve-comment/:id", isAuthenticated, approveComment);
 adminRoute.get("/logout", isAuthenticated, adminLogout);
+adminRoute.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+adminRoute.get(
+  "/auth/google/dashboard",
+  passport.authenticate("google", { failureRedirect: "http://localhost:5173" }),
+  (req, res) => {
+    res.redirect("http://localhost:5173/dashboard");
+    console.log("Logged in via Google successfully");
+  }
+);
 
 export default adminRoute;
