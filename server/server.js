@@ -36,10 +36,10 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use((req, res, next) => {
-  console.log("Session at", req.path, ":", req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("Session at", req.path, ":", req.session);
+//   next();
+// });
 
 //Routes
 app.get("/", (_, res) => {
