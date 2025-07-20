@@ -208,7 +208,9 @@ export function AddblogMenu() {
               type="button"
               disabled={loading}
               onClick={generateContentHandler}
-              className="absolute bottom-1 right-2 ml-2 text-sm text-white bg-black/70 py-1.5 px-4 rounded cursor-pointer hover:underline"
+              className={`absolute bottom-1 right-2 ml-2 text-sm text-white bg-black/70 py-1.5 px-4 rounded hover:underline ${
+                loading ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
             >
               {loading ? "Generating" : "Generate with AI"}
             </button>
