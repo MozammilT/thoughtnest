@@ -44,9 +44,11 @@ adminRoute.get(
 );
 adminRoute.get(
   "/auth/google/dashboard",
-  passport.authenticate("google", { failureRedirect: "http://localhost:5173" }),
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:5173",
+  }),
   (req, res) => {
-    res.redirect("http://localhost:5173/dashboard");
+    res.redirect("http://localhost:5173/auth/callback");
     console.log("Logged in via Google successfully");
   }
 );
