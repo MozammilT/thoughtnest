@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../../components/ui/sidebar";
 import {
   IconBrandTabler,
@@ -44,7 +44,7 @@ export function SidebarDemo() {
     },
   ];
   const [open, setOpen] = useState(false);
-  const { username } = useAppContext();
+  const { username, profileIcon } = useAppContext();
   const formattedUsername =
     username.charAt(0).toUpperCase() + username.slice(1);
 
@@ -80,9 +80,13 @@ export function SidebarDemo() {
                   path: "#",
                   icon: (
                     <img
-                      src={`https://ui-avatars.com/api/?name=${
-                        username || "A"
-                      }&background=fdc700&color=000&rounded=true`}
+                      src={
+                        profileIcon?.trim()
+                          ? profileIcon
+                          : `https://ui-avatars.com/api/?name=${
+                              username || "A"
+                            }&background=fdc700&color=000&rounded=true`
+                      }
                       className="h-7 w-7 shrink-0 rounded-full"
                       width={50}
                       height={50}

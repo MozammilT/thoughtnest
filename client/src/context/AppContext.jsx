@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState([]);
+  const [profileIcon, setProfileIcon] = useState("");
   const [inputs, setInputs] = useState("");
 
   const fetchAdmin = async () => {
@@ -26,7 +27,8 @@ export const AppProvider = ({ children }) => {
       if (data.success) {
         console.log("User is authenticated:", data.admin);
         setAdmin(true);
-        setUsername(data.admin.username); 
+        setProfileIcon(data.admin.image);
+        setUsername(data.admin.username);
         console.log(data.admin.username);
       } else {
         console.log("User not authenticated");
@@ -79,6 +81,7 @@ export const AppProvider = ({ children }) => {
     setInputs,
     fetchBlogs,
     username,
+    profileIcon,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
