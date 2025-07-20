@@ -38,7 +38,7 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/api/admin/auth/google/dashboard",
     },
-    async (asseccToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       try {
         console.log("Google O'Auth profile: ", profile);
         try {
