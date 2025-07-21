@@ -7,6 +7,7 @@ import blogRoute from "./routes/blogRoutes.js";
 import session from "express-session";
 import connectCloudinary from "./config/cloudinary.js";
 import passport from "./config/passport.js";
+import MongoStore from "connect-mongo";
 
 connectDB();
 connectCloudinary();
@@ -33,6 +34,10 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGDB_URI,
+      ttl: 24 * 60 * 60,
+    }),
     cookie: {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
