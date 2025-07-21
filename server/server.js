@@ -36,17 +36,17 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "lax",
-      secure: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production" ? true : false,
     },
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use((req, res, next) => {
-//   console.log("Session at", req.path, ":", req.session);
-//   next();
-// });
+app.use((req, res, next) => {
+  console.log("Session at", req.path, ":", req.session);
+  next();
+});
 
 //Routes
 app.get("/", (_, res) => {
