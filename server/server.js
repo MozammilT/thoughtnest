@@ -13,7 +13,6 @@ connectCloudinary();
 
 const app = express();
 const port = 3000;
-const isProduction = process.env.NODE_ENV === "production";
 
 //Middleware
 app.use(
@@ -21,13 +20,14 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:3000",
-      "https://thoughtnest-backend.vercel.app",
       "https://thoughtnest-blog.vercel.app",
+      "https://thoughtnest-backend.vercel.app",
     ],
     credentials: true,
   })
 );
 app.use(express.json());
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -36,8 +36,8 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
-      sameSite: isProduction ? "none" : "lax",
-      secure: isProduction,
+      sameSite: "lax",
+      secure: true,
     },
   })
 );
