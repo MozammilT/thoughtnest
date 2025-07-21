@@ -45,8 +45,9 @@ export function SidebarDemo() {
   ];
   const [open, setOpen] = useState(false);
   const { username, profileIcon } = useAppContext();
-  const formattedUsername =
-    username.charAt(0).toUpperCase() + username.slice(1);
+  const formattedUsername = username
+    ? username.charAt(0).toUpperCase() + username.slice(1)
+    : "Admin";
 
   return (
     <>
