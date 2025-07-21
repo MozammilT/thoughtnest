@@ -228,7 +228,6 @@ function CommentsMenu() {
             )
             .map((comment, idx) => (
               <div
-              
                 key={idx}
                 className={`rounded-xl p-4 shadow-md ${
                   darkMode
@@ -239,6 +238,7 @@ function CommentsMenu() {
                 <p>
                   <b>Blog:</b> {comment.blog.title}
                 </p>
+                <br />
                 <p>
                   <b>Name:</b> {comment.name}
                 </p>
@@ -248,7 +248,6 @@ function CommentsMenu() {
                 <p className="text-xs mt-2 opacity-70">
                   {moment(comment.blog.createdAt).format("MMMM Do, YYYY")}
                 </p>
-
                 <div className="flex justify-between items-center mt-3">
                   {!comment.isApproved ? (
                     <button
