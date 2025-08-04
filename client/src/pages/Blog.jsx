@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -7,6 +8,7 @@ import Footer from "../components/Footer.jsx";
 import { useAppContext } from "../context/AppContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { toast } from "react-hot-toast";
+import { useSpring, motion, useScroll } from "motion/react";
 
 function Blog() {
   const { id } = useParams();
@@ -15,9 +17,17 @@ function Blog() {
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [commentLoading, setCommentLoading] = useState(false);
   const { axios } = useAppContext();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
+
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 10,
+    mass: 0.1,
+  });
 
   const fetchBlogData = async () => {
     try {
@@ -49,20 +59,13 @@ function Blog() {
   const commentHandler = async (e) => {
     try {
       e.preventDefault();
+      setCommentLoading(true);
       const { data } = await axios.post("/api/blog/add-comments", {
         blog: id,
         name,
         content,
       });
       if (data.success) {
-        toast.success(data.message, {
-          position: "bottom-right",
-          style: {
-            borderRadius: "50px",
-            background: "#595959",
-            color: "#fff",
-          },
-        });
         fetchComments();
         setContent("");
         setName("");
@@ -72,6 +75,8 @@ function Blog() {
     } catch (err) {
       toast.error(err.message);
       console.log(err);
+    } finally {
+      setCommentLoading(false);
     }
   };
 
@@ -90,6 +95,13 @@ function Blog() {
         <Loading />
       ) : blogData ? (
         <>
+          <motion.div
+            className="fixed top-0 left-0 right-0 h-1 z-50 bg-primary"
+            style={{
+              scaleX: smoothProgress,
+              originX: 0,
+            }}
+          />
           <div className="relative">
             <img
               src="/gradientBackground.png"
@@ -193,9 +205,16 @@ function Blog() {
 
                 <button
                   type="submit"
-                  className="bg-primary/90 text-white text-xl max-sm:text-lg px-4 max-sm:px-3 py-2 max-sm:py-1 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 mb-15"
+                  className="bg-primary/90 text-white text-lg max-sm:text-lg px-4 max-sm:px-3 py-2 max-sm:py-1 rounded-lg cursor-pointer hover:scale-105 transition-all duration-200 mb-15"
                 >
-                  Submit
+                  {commentLoading ? (
+                    <div className="flex gap-2 items-center">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin cursor-pointer" />
+                      Adding
+                    </div>
+                  ) : (
+                    <div>Add Comment</div>
+                  )}
                 </button>
               </form>
 
