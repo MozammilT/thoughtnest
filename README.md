@@ -70,7 +70,7 @@ VITE_BACKEND_URL=http://localhost:3000
 
 Server
 
-````bash
+```bash
 MONGDB_URI=<your_mongo_db_URI>
 SALT_ROUNDS=<your_salt_rounds>
 SESSION_SECRET=<your_secret>
@@ -81,6 +81,7 @@ GEMINI_API_KEY=<your_gemini_api_key>
 GOOGLE_CLIENT_ID=<your_google_client_id>
 GOOGLE_CLIENT_SECRET=<your_google_client_secret>
 NODE_ENV=deployment
+```
 
 ## 4️⃣ Run the project
 ```bash
