@@ -11,6 +11,10 @@
 ThoughtNest is a modern blogging and idea-sharing platform that helps you store, organize, and revisit your thoughts effortlessly.  
 Whether you're a writer, student, or just a thinker — ThoughtNest gives your stories a home.
 
+## 🌐 Live Demo
+
+**[✨ Try ThoughtNest Live →](https://thoughtnest-blog.vercel.app)**
+
 ---
 
 ## ✨ Features
@@ -27,6 +31,8 @@ Whether you're a writer, student, or just a thinker — ThoughtNest gives your s
 **Frontend:** React, TailwindCSS, Framer Motion  
 **Backend:** Node.js, Express.js, MongoDB  
 **Auth:** Passport.js (O'Auth & Session based)  
+**UI Components:** [Aceternity UI](https://ui.aceternity.com/)  
+**API:** Google Gemini API  
 **Other Tools:** Cloudinary (image uploads), React Router, Axios
 
 <p align="center">
@@ -42,7 +48,7 @@ Whether you're a writer, student, or just a thinker — ThoughtNest gives your s
 ### 1️⃣ Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/thoughtNest.git
+git clone https://github.com/MozammilT/thoughtNest.git
 cd thoughtNest
 ```
 
@@ -71,7 +77,7 @@ VITE_BACKEND_URL=http://localhost:3000
 Server
 
 ```bash
-MONGDB_URI=<your_mongo_db_URI>
+MONGODB_URI=<your_mongo_db_uri>
 SALT_ROUNDS=<your_salt_rounds>
 SESSION_SECRET=<your_secret>
 CLOUDINARY_CLOUD_NAME=<your_cloudinary_name>
@@ -84,6 +90,7 @@ NODE_ENV=deployment
 ```
 
 ## 4️⃣ Run the project
+
 ```bash
 # Server
 cd server
@@ -92,7 +99,7 @@ node server.js
 # Client
 cd ../client
 npm run dev
-````
+```
 
 ## 🤝 Contributing
 
@@ -103,8 +110,12 @@ Contributions are welcome!
 3. Commit your changes
 4. Open a Pull Request
 
+## 🌐 Deployment
+
+The project is deployed on Vercel — check out the [Live Demo 🌐]((https://nexora-saas-tau.vercel.app)
+
 ## 📄 License
 
 This project is licensed under the MIT License.
 
-<p align="center">Built with ❤️ by <a href="https://github.com/MozammilT">Mozammil</a></p>
+<p align="center">Built with ❤️ by <a href="https://github.com/MozammilT">Mozammil Tarique</a></p>
