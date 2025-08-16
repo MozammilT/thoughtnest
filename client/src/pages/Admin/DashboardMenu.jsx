@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import Loading from "../../components/Loading.jsx";
+import TableItemSkeleton from "@/components/TableItemSkeleton.jsx";
 
 function DashboardMenu() {
   const [dashboardData, setDashboardData] = useState({
@@ -12,12 +13,14 @@ function DashboardMenu() {
     drafts: 0,
     recentBlogs: [],
   });
+  const [loadingTable, setLoadingTable] = useState(false);
 
   const { axios, admin, navigate, loading } = useAppContext();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
 
   const fetchDashboard = async () => {
+    setLoadingTable(true);
     try {
       const { data } = await axios.get("/api/admin/dashboard", {
         withCredentials: true,
@@ -28,8 +31,48 @@ function DashboardMenu() {
     } catch (err) {
       toast.error(err.message);
       console.error(err);
+    } finally {
+      setLoadingTable(false);
     }
   };
+
+  const updateBlogStatus = (blogId, newStatus) => {
+    setDashboardData((prevData) => {
+      const currentBlog = prevData.recentBlogs.find(
+        (blog) => blog._id === blogId
+      );
+
+      let draftCountChange = 0;
+      if (currentBlog) {
+        if (currentBlog.isPublished && !newStatus) {
+          draftCountChange = 1;
+        } else if (!currentBlog.isPublished && newStatus) {
+          draftCountChange = -1;
+        }
+      }
+
+      return {
+        ...prevData,
+        recentBlogs: prevData.recentBlogs.map((blogItem) =>
+          blogItem._id === blogId
+            ? { ...blogItem, isPublished: newStatus }
+            : blogItem
+        ),
+        drafts: prevData.drafts + draftCountChange,
+      };
+    });
+  };
+
+  const removeBlog = (blogId) => {
+    setDashboardData((prevData) => ({
+      ...prevData,
+      recentBlogs: prevData.recentBlogs.filter(
+        (blogItem) => blogItem._id !== blogId
+      ),
+      blogs: prevData.blogs - 1,
+    }));
+  };
+
   useEffect(() => {
     fetchDashboard();
   }, []);
@@ -39,6 +82,7 @@ function DashboardMenu() {
       navigate("/");
     }
   }, [admin]);
+
   if (admin === null || loading) return <Loading />;
 
   return (
@@ -155,7 +199,7 @@ function DashboardMenu() {
         </div>
 
         <div
-          className={`relative max-w-4xl overflow-auto max-h-[70vh] shadow rounded-lg scrollbar-hide ${
+          className={`relative max-w-6xl overflow-auto max-h-[70vh] shadow rounded-lg scrollbar-hide ${
             darkMode ? "bg-[#111827]" : "bg-white"
           }`}
         >
@@ -168,23 +212,29 @@ function DashboardMenu() {
               <tr>
                 <th className="px-2 py-4 xl:px-6">#</th>
                 <th className="px-2 py-4">Blog Title</th>
-                <th className="px-2 py-4">Category</th>
-                <th className="px-2 py-4 max-sm:hidden">Date</th>
+                <th className="px-2 py-4 max-sm:hidden">Category</th>
+                <th className="px-2 py-4 max-sm:hidden text-center">Date</th>
                 <th className="px-2 py-4 max-sm:hidden">Status</th>
                 <th className="px-2 py-4">Actions</th>
               </tr>
             </thead>
 
             <tbody>
-              {dashboardData.recentBlogs.map((blog, idx) => (
-                <TableItem
-                  key={idx + 1}
-                  blog={blog}
-                  index={idx + 1}
-                  fetchBlogs={fetchDashboard}
-                  isAlternate={idx % 2 === 0}
-                />
-              ))}
+              {loadingTable
+                ? Array.from({ length: 5 }, (_, idx) => (
+                    <TableItemSkeleton key={idx} />
+                  ))
+                : dashboardData.recentBlogs.map((blog, idx) => (
+                    <TableItem
+                      blog={blog}
+                      key={blog._id}
+                      index={idx + 1}
+                      fetchBlogs={fetchDashboard}
+                      updateBlogStatus={updateBlogStatus}
+                      removeBlog={removeBlog}
+                      isAlternate={idx % 2 === 0}
+                    />
+                  ))}
             </tbody>
           </table>
         </div>

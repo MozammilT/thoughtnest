@@ -3,20 +3,43 @@ import TableItem from "@/components/admin/TableItem.jsx";
 import { toast } from "react-hot-toast";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import TableItemSkeleton from "@/components/TableItemSkeleton.jsx";
 
 function BloglistMenu() {
   const [blog, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { axios } = useAppContext();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
 
   const fetchBlogs = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get("/api/admin/blogs");
       data.success ? setBlogs(data.blogs) : toast.error(data.message);
     } catch (err) {
       toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  // Function to update a single blog's publish status without refetching all blogs
+  const updateBlogStatus = (blogId, newStatus) => {
+    setBlogs((prevBlogs) =>
+      prevBlogs.map((blogItem) =>
+        blogItem._id === blogId
+          ? { ...blogItem, isPublished: newStatus }
+          : blogItem
+      )
+    );
+  };
+
+  // Function to remove a blog from the list after deletion
+  const removeBlog = (blogId) => {
+    setBlogs((prevBlogs) =>
+      prevBlogs.filter((blogItem) => blogItem._id !== blogId)
+    );
   };
 
   useEffect(() => {
@@ -39,7 +62,7 @@ function BloglistMenu() {
       </div>
 
       <div
-        className={`relative max-w-4xl shadow-lg border rounded-lg scrollbar-hide overflow-hidden ${
+        className={`relative max-w-6xl shadow-lg border rounded-lg scrollbar-hide overflow-hidden ${
           darkMode ? "border-gray-900" : "border-gray-200"
         }`}
       >
@@ -60,22 +83,28 @@ function BloglistMenu() {
                 <th className="px-2 py-4 xl:px-6">#</th>
                 <th className="px-2 py-4">blog title</th>
                 <th className="px-2 py-4">Category</th>
-                <th className="px-2 py-4 max-sm:hidden">date</th>
+                <th className="px-2 py-4 max-sm:hidden text-center">date</th>
                 <th className="px-2 py-4 max-sm:hidden">status</th>
                 <th className="px-2 py-4">actions</th>
               </tr>
             </thead>
 
             <tbody>
-              {blog.map((blog, idx) => (
-                <TableItem
-                  blog={blog}
-                  key={idx}
-                  index={idx + 1}
-                  fetchBlogs={fetchBlogs}
-                  isAlternate={idx % 2 === 0}
-                />
-              ))}
+              {loading
+                ? Array.from({ length: 5 }, (_, idx) => (
+                    <TableItemSkeleton key={idx} />
+                  ))
+                : blog.map((blog, idx) => (
+                    <TableItem
+                      blog={blog}
+                      key={blog._id}
+                      index={idx + 1}
+                      fetchBlogs={fetchBlogs}
+                      updateBlogStatus={updateBlogStatus}
+                      removeBlog={removeBlog}
+                      isAlternate={idx % 2 === 0}
+                    />
+                  ))}
             </tbody>
           </table>
         </div>

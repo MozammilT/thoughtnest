@@ -4,12 +4,14 @@ import { AlertDialogDemo } from "../AlertDialogue.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
 
-function TableItem({ blog, fetchBlogs, index, isAlternate }) {
+function TableItem({ blog, updateBlogStatus, removeBlog, index, isAlternate }) {
   const { title, createdAt, category, _id } = blog;
   const { axios } = useAppContext();
   const { theme } = useTheme();
   const darkMode = theme === "dark";
+  const [isToggling, setIsToggling] = useState(false);
 
   const deleteBlog = async () => {
     try {
@@ -23,7 +25,7 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
             color: "#fff",
           },
         });
-        await fetchBlogs();
+        removeBlog(_id);
       } else {
         toast.error(data.message);
       }
@@ -34,26 +36,21 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
   };
 
   const togglePublish = async () => {
+    setIsToggling(true);
     try {
       const { data } = await axios.post("/api/blog/toggle-publish", {
         id: _id,
       });
       if (data.success) {
-        toast.success(data.message, {
-          position: "bottom-right",
-          style: {
-            borderRadius: "50px",
-            background: "#595959",
-            color: "#fff",
-          },
-        });
-        await fetchBlogs();
+        updateBlogStatus(_id, !blog.isPublished);
       } else {
         toast.error(data.message);
       }
     } catch (err) {
       toast.error(err.message);
       console.log(err);
+    } finally {
+      setIsToggling(false);
     }
   };
 
@@ -74,7 +71,7 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
       <th className="text-left text-primary inline-block bg-primary/10 rounded-full px-3 py-1.5 border my-4 text-xs font-medium">
         {category}
       </th>
-      <th className="px-2 py-4 max-sm:hidden text-left font-medium">
+      <th className="px-2 py-4 max-sm:hidden text-center font-medium">
         {moment(createdAt).format("MMMM Do, YYYY")}
       </th>
       <th
@@ -87,20 +84,21 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
       <th className="px-2 py-4 flex text-xs gap-3">
         <button
           onClick={togglePublish}
-          title={`${
-            blog.isPublished ? "Unpublish comment" : "Publish comment"
-          }`}
+          disabled={isToggling}
+          title={`${blog.isPublished ? "Unpublish blog" : "Publish blog"}`}
           className={`px-2 py-1 rounded text-xs font-medium cursor-pointer min-w-20 ${
             blog.isPublished
               ? "bg-red-100 text-red-600 hover:bg-red-200"
               : "bg-green-100 text-green-600 hover:bg-green-200"
-          } transition-all`}
+          } transition-all ${isToggling && "opacity-50 cursor-not-allowed"}`}
         >
           {blog.isPublished ? "Unpublish" : "Publish"}
         </button>
 
         <AlertDialogDemo
-          trigger={<Trash2 className="text-[#ed2626] cursor-pointer hover:scale-110 transition-all" />}
+          trigger={
+            <Trash2 className="text-[#ed2626] cursor-pointer hover:scale-110 transition-all" />
+          }
           title={"Are you sure?"}
           description={
             "Doing this will permanently delete this blog from our servers."
