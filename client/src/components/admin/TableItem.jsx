@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { AlertDialogDemo } from "../AlertDialogue.jsx";
 import { useAppContext } from "../../context/AppContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import { Trash2 } from "lucide-react";
 
 function TableItem({ blog, fetchBlogs, index, isAlternate }) {
   const { title, createdAt, category, _id } = blog;
@@ -99,14 +100,7 @@ function TableItem({ blog, fetchBlogs, index, isAlternate }) {
         </button>
 
         <AlertDialogDemo
-          trigger={
-            <img
-              src="/cross_icon.svg"
-              title="Delete comment"
-              className="w-8 rounded-full  hover:scale-125 hover:bg-red-100 transition-all cursor-pointer p-1"
-              alt="cross-icon"
-            />
-          }
+          trigger={<Trash2 className="text-[#ed2626] cursor-pointer hover:scale-110 transition-all" />}
           title={"Are you sure?"}
           description={
             "Doing this will permanently delete this blog from our servers."

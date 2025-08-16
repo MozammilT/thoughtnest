@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { blog_data } from "../../constants/assets.js";
 import TableItem from "@/components/admin/TableItem.jsx";
 import { toast } from "react-hot-toast";
 import { useAppContext } from "../../context/AppContext.jsx";

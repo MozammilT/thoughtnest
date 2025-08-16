@@ -5,45 +5,27 @@ function NewsLetter() {
   const darkMode = theme === "dark";
 
   return (
-    <div className="flex flex-col items-center justify-center text-center space-y-2 my-32">
-      <h1
-        className={`md:text-4xl text-2xl font-semibold ${
-          darkMode ? "text-gray-300" : "text-gray-800"
-        }`}
-      >
+    <div
+      class={`w-full max-w-5xl mx-auto rounded-2xl mb-10 px-2 text-center text-white py-15 flex flex-col items-center justify-center ${
+        darkMode ? "bg-slate-800" : "bg-gray-700"
+      }`}
+    >
+      <h1 class="max-w-lg font-semibold text-4xl/[44px] mt-2">
         Never Miss a Blog!
       </h1>
-      <p
-        className={`md:text-lg pb-8 text-lg ${
-          darkMode ? "text-gray-300/70" : "text-gray-700/70"
-        }`}
-      >
+      <p class="text-primary font-medium">
         Subscribe to get the latest blog, new tech, and exclusive news.
       </p>
-
-      {/* Outer container with rounded corners and bg */}
-      <form
-        className={`flex items-center max-w-xl w-full max-sm:w-10/12 overflow-hidden rounded-lg shadow-xs ${
-          darkMode ? "bg-[#e5e7eb]" : "bg-white border border-gray-300"
-        }`}
-      >
+      <div class="flex items-center justify-center mt-10 border border-slate-600 focus-within:outline focus-within:outline-neutral-900text-sm rounded-full h-14 max-w-md w-full">
         <input
-          required
           type="text"
-          placeholder="Enter your email id"
-          className={`h-full w-full px-4 py-3 outline-none text-sm ${
-            darkMode
-              ? "bg-[#e5e7eb] text-gray-800 placeholder-gray-600"
-              : "bg-white text-gray-800 placeholder-gray-400"
-          }`}
+          class="bg-transparent outline-none rounded-full px-4 h-full flex-1"
+          placeholder="Enter your email address"
         />
-        <button
-          type="submit"
-          className="md:px-10 px-6 py-3 bg-yellow-400 text-white font-semibold text-sm"
-        >
+        <button class="bg-primary text-white rounded-full h-11 mr-1 px-8 flex items-center justify-center">
           Subscribe
         </button>
-      </form>
+      </div>
     </div>
   );
 }

@@ -96,7 +96,7 @@ function Blog() {
       ) : blogData ? (
         <>
           <motion.div
-            className="fixed top-0 left-0 right-0 h-1 z-50 bg-primary"
+            className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-primary"
             style={{
               scaleX: smoothProgress,
               originX: 0,

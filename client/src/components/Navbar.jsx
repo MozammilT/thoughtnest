@@ -38,14 +38,16 @@ function Navbar() {
             setMenuOpen(!menuOpen);
             toggleTheme();
           }}
-          className="text-sm px-4 py-2 rounded-full text-black dark:text-white bg-gray-200 dark:bg-gray-700 mb-2 md:mb-0"
+          className={`text-sm px-4 py-2 rounded-full mb-2 md:mb-0 cursor-pointer ${
+            darkMode ? "bg-gray-800" : "bg-gray-200"
+          }`}
         >
           {darkMode ? "☀️" : "🌙"}
         </button>
 
         <button
           onClick={() => (admin ? navigate("/dashboard") : navigate("/login"))}
-          className="group rounded-full bg-primary text-white flex items-center gap-2 px-6 py-2 text-base"
+          className="group rounded-full bg-primary text-white flex items-center gap-2 px-6 py-2 text-base cursor-pointer"
         >
           {admin ? "Dashboard" : "Admin Login"}
           <img

@@ -79,7 +79,7 @@ function Header() {
 
       <img
         src="gradientBackground.png"
-        className="absolute -top-25 z-1 opacity-100 max-sm:-top-18"
+        className="absolute -top-50 z-1 opacity-100 max-sm:-top-20 max-sm:w-[600px] max-sm:h-[450px]"
       />
     </div>
   );
