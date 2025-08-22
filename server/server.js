@@ -21,8 +21,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:3000",
-      "https://thoughtnest-blog.vercel.app",
-      "https://thoughtnest-backend.vercel.app",
+      "https://thoughtnest-blog.vercel.app", //Frontend live link
     ],
     credentials: true,
   })
@@ -41,8 +40,8 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
-      sameSite: process.env.NODE_ENV === "production" ? "lax" : "none",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      secure: true,
     },
   })
 );
