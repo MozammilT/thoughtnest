@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { Menu, X } from "lucide-react";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler.jsx";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -33,17 +34,11 @@ function Navbar() {
           darkMode ? "bg-[#030712]/90 md:bg-transparent" : "bg-white"
         } absolute md:static top-20 right-4 md:flex md:flex-row flex-col md:bg-transparent md:items-center md:gap-6 rounded-lg p-4 md:p-0 z-50 shadow-md md:shadow-none`}
       >
-        <button
-          onClick={() => {
-            setMenuOpen(!menuOpen);
-            toggleTheme();
-          }}
+        <AnimatedThemeToggler
           className={`text-sm px-4 py-2 rounded-full mb-2 md:mb-0 cursor-pointer ${
             darkMode ? "bg-gray-800" : "bg-gray-200"
           }`}
-        >
-          {darkMode ? "☀️" : "🌙"}
-        </button>
+        />
 
         <button
           onClick={() => (admin ? navigate("/dashboard") : navigate("/login"))}

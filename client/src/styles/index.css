@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 .dark {
-  @apply bg-white dark:bg-dark text-gray-900 dark:text-white transition-colors;
+  @apply bg-dark text-white transition-colors;
 }
 
 :root {
@@ -159,4 +159,10 @@
 
 .dark .ql-toolbar button:hover {
   color: white;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
